@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+</head>
+<body>
+<h3>Song Management</h3>
+<p>
+    <a th:href="@{/medical/create}">
+        Add new medical
+    </a>
+</p>
+<table id = "songs">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>FullName</th>
+        <th>Birthday</th>
+        <th>Gender</th>
+        <th>idCard</th>
+        <th>Address</th>
+        <th>phone</th>
+        <th>Email</th>
+        <th>startAddress</th>
+        <th>comeAddress</th>
+        <th>TestPCR</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="medicals: ${medical}">
+
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+
+</html>
