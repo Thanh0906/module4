@@ -1,9 +1,9 @@
 package com.codegym.repository;
 
 import com.codegym.model.Song;
-import com.mysql.cj.Session;
-import com.mysql.cj.xdevapi.SessionFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
@@ -11,25 +11,25 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+
 @Repository
-public class SongRepositoryImpl implements  ISongRepository{
+public class SongRepositoryImpl implements ISongRepository {
     private static SessionFactory sessionFactory;
     private static EntityManager entityManager;
 
     static {
         try {
-            sessionFactory = (SessionFactory) new Configuration()
-                    .configure("hibernate.conf.xml")
-                    .buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.conf.xml").buildSessionFactory();
             entityManager = sessionFactory.createEntityManager();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public List<Song> findAll() {
         String queryString = "SELECT s from Song AS s";
-        TypedQuery<Song> query = entityManager.createQuery(queryString,Song.class);
+        TypedQuery<Song> query = entityManager.createQuery(queryString, Song.class);
         return query.getResultList();
     }
 
@@ -40,9 +40,9 @@ public class SongRepositoryImpl implements  ISongRepository{
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.saveOrUpdate(music);
+            session.saveOrUpdate(song);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
@@ -52,14 +52,15 @@ public class SongRepositoryImpl implements  ISongRepository{
                 session.close();
             }
         }
+
     }
 
     @Override
     public Song findById(int id) {
-        String queryString = "SELECT m FROM  AS m WHERE m.id = :id";
+        String queryString = "SELECT s FROM Song AS s WHERE s.id = :id";
         TypedQuery<Song> query = entityManager.createQuery(queryString, Song.class);
         query.setParameter("id", id);
-        return query.getSingleResult();
+        return null;
     }
 
     @Override
@@ -69,14 +70,14 @@ public class SongRepositoryImpl implements  ISongRepository{
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Song originSong = findById(song.getId());
-            originSong.setName(song.getName());
-            originSong.setArtist(song.getArtist());
-            originSong.setType(song.getType());
-            originSong.setSongPath(song.getSongPath());
-            session.saveOrUpdate(originSong);
+            Song song1 = findById(song.getId());
+            song1.setName(song.getName());
+            song1.setType(song.getType());
+            song1.setSongPath(song.getSongPath());
+            song1.setArtist(song.getArtist());
+            session.saveOrUpdate(song1);
             transaction.commit();
-            return originSong;
+            return song1;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -99,9 +100,10 @@ public class SongRepositoryImpl implements  ISongRepository{
             transaction = session.beginTransaction();
             Song song = findById(id);
             if (song != null) {
-                session.delete(song);
+                session.delete(id);
             }
             transaction.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -112,5 +114,8 @@ public class SongRepositoryImpl implements  ISongRepository{
                 session.close();
             }
         }
+
     }
+
+
 }

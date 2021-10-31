@@ -2,7 +2,6 @@ package com.codegym.controller;
 
 import com.codegym.model.Song;
 import com.codegym.model.SongForm;
-import com.codegym.service.HibernateSongServiceImpl;
 import com.codegym.service.ISongService;
 import com.codegym.service.SongServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,8 +62,8 @@ public class SongController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable int id ) {
-        ModelAndView modelAndView = new ModelAndView("delete");
-        modelAndView.addObject("music", iSongService.findById(id));
+        ModelAndView modelAndView =new ModelAndView("/index");
+       iSongService.delete(id);
         return modelAndView;
 
     }

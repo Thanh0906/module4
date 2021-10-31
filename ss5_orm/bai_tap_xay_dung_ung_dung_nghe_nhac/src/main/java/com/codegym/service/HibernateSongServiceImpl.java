@@ -6,40 +6,29 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Service
 public class HibernateSongServiceImpl implements ISongService {
     private static SessionFactory sessionFactory;
     private static EntityManager entityManager;
 
     static {
         try {
-            sessionFactory = new Configuration()
-                    .configure("hibernate.conf.xml")
-                    .buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.conf.xml").buildSessionFactory();
             entityManager = sessionFactory.createEntityManager();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
-    @Override
-    public List<Song> findAll() {
-        String queryStr = "SELECT c FROM Song AS c";
-        TypedQuery<Song> query = entityManager.createQuery(queryStr, Song.class);
-        return query.getResultList();
-    }
 
     @Override
-    public Song findOne(int id) {
-        String queryStr = "SELECT c FROM Song AS c WHERE c.id = :id";
-        TypedQuery<Song> query = entityManager.createQuery(queryStr, Song.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
+    public List<Song> findAll() {
+        String queryString = "SELECT s from Song AS s";
+        TypedQuery<Song> query = entityManager.createQuery(queryString, Song.class);
+        return query.getResultList();
     }
 
     @Override
@@ -49,10 +38,9 @@ public class HibernateSongServiceImpl implements ISongService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(song);
+            session.saveOrUpdate(song);
             transaction.commit();
-
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
@@ -66,7 +54,10 @@ public class HibernateSongServiceImpl implements ISongService {
     }
 
     @Override
-    public Song findByName(String name) {
+    public Song findById(int id) {
+        String queryString = "SELECT s FROM Song AS s WHERE s.id = :id";
+        TypedQuery<Song> query = entityManager.createQuery(queryString, Song.class);
+        query.setParameter("id", id);
         return null;
     }
 
@@ -77,14 +68,14 @@ public class HibernateSongServiceImpl implements ISongService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Song origin = findOne(song.getId());
-            origin.setName(song.getName());
-           origin.setArtist(song.getArtist());
-           origin.setType(song.getType());
-           origin.setSongPath(song.getSongPath());
-            session.saveOrUpdate(origin);
+            Song song1 = findById(song.getId());
+            song1.setName(song.getName());
+            song1.setType(song.getType());
+            song1.setSongPath(song.getSongPath());
+            song1.setArtist(song.getArtist());
+            session.saveOrUpdate(song1);
             transaction.commit();
-            return origin;
+            return song1;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -96,19 +87,21 @@ public class HibernateSongServiceImpl implements ISongService {
             }
         }
         return null;
-
     }
 
     @Override
-    public void remove(int id) {
+    public void delete(int id) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Song origin = findOne(id);
-            session.remove(origin);
+            Song song = findById(id);
+            if (song != null) {
+                session.delete(id);
+            }
             transaction.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -121,4 +114,5 @@ public class HibernateSongServiceImpl implements ISongService {
         }
 
     }
+
 }
