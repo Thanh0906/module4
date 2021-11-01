@@ -1,6 +1,5 @@
 package com.codegym.cms.confuguration;
 
-import com.codegym.cms.repository.BlogRepositoryImpl;
 import com.codegym.cms.repository.IBlogRepository;
 import com.codegym.cms.service.BlogServiceImpl;
 import com.codegym.cms.service.IBlogService;
@@ -93,7 +92,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/blog");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/blogs");
         dataSource.setUsername("root");
         dataSource.setPassword("zxcvbnm");
         return dataSource;
@@ -112,13 +111,5 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
-    @Bean
-        public IBlogRepository blogRepository() {
-            return new BlogRepositoryImpl();
-        }
 
-        @Bean
-        public IBlogService blogService() {
-            return new BlogServiceImpl();
-        }
 }

@@ -1,33 +1,33 @@
 package com.codegym.cms.service;
 
+
 import com.codegym.cms.model.Blog;
 import com.codegym.cms.repository.IBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-public class BlogServiceImpl implements IBlogService{
-
+@Service
+public class BlogServiceImpl implements IBlogService {
     @Autowired
     private IBlogRepository blogRepository;
-
     @Override
     public List<Blog> findAll() {
         return blogRepository.findAll();
     }
 
     @Override
-    public Blog findById(Long id) {
-        return blogRepository.findById(id);
+    public Blog findById(int id) {
+        return blogRepository.findById(id).get();
     }
 
     @Override
-    public void saveOrUpdate(Blog blog) {
-        blogRepository.saveOrUpdate(blog);
+    public void save(Blog blog) {
+        blogRepository.save(blog);
     }
 
     @Override
-    public void delete(Long id) {
-        blogRepository.delete(id);
+    public void delete(int id) {
+        blogRepository.deleteById(id);
     }
 }

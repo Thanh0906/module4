@@ -3,28 +3,28 @@ package com.codegym.cms.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "blogs")
+@Table(name = "blog")
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String title;
     private String content;
 
     public Blog() {
     }
 
-    public Blog(Long id, String title, String content) {
+    public Blog(int id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
