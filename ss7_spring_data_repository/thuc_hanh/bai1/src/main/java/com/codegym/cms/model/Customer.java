@@ -14,6 +14,10 @@ public class Customer {
     @JoinColumn(name = "province_id")
     private Province province;
 
+    public Customer(Province province) {
+        this.province = province;
+    }
+
     public Customer() {}
 
     public Customer(String firstName, String lastName) {
