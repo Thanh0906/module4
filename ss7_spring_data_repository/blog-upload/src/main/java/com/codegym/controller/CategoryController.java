@@ -17,7 +17,7 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/create")
-    public ModelAndView showCreateForm () {
+    public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("/category/create");
         modelAndView.addObject("category", new Category());
         return modelAndView;
@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public ModelAndView listBlog () {
+    public ModelAndView listBlog() {
         Iterable<Category> categories = categoryService.findAll();
         ModelAndView modelAndView = new ModelAndView("/category/list");
         modelAndView.addObject("categories", categories);
@@ -45,25 +45,45 @@ public class CategoryController {
         if (category.isPresent()) {
             modelAndView = new ModelAndView("/category/edit");
             modelAndView.addObject("category", category.get());
+            return modelAndView;
         } else {
             modelAndView = new ModelAndView("/error.404");
+            return modelAndView;
         }
-        return modelAndView;
+
     }
 
     @PostMapping("/update")
-    public String updateCategory(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes) {
+    public ModelAndView updateCategory(@ModelAttribute("category") Category category) {
         categoryService.save(category);
-        redirectAttributes.addFlashAttribute("message", "The category was successful updated");
-        return "redirect:/category";
+        ModelAndView modelAndView = new ModelAndView("/category/edit");
+        modelAndView.addObject("category", category);
+        modelAndView.addObject("message", "Update thành công");
+
+      return modelAndView;
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView showDeleteForm(@PathVariable Long id) {
+        Optional<Category> category = categoryService.findById(id);
+        if (category.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("/category/delete");
+            modelAndView.addObject("category", category.get());
+            return modelAndView;
+
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/error.404");
+            return modelAndView;
+        }
     }
 
     @PostMapping("/delete")
-    public String deleteCategory(@RequestParam Long idCategory, RedirectAttributes redirectAttributes) {
-        categoryService.remove(idCategory);
-        redirectAttributes.addFlashAttribute("message", "The category was successful deleted");
-        return "redirect:/category";
+    public String deleteCustomer(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes) {
+        categoryService.remove(category.getId());
+        redirectAttributes.addFlashAttribute("message","xóa thành công");
+        return "redirect:category";
     }
+
 
 
 }

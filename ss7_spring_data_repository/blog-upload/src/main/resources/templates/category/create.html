@@ -1,49 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/common-layout :: header">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Category</title>
 </head>
 <body>
-<div th:replace="/common-layout :: navbar"></div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <ul th:replace="/common-layout :: left-sidebar"></ul>
-        </div>
-        <div class="col-10">
-            <div class="container">
-                <h3>Add new category</h3>
-                <p>
-                    <a th:href="@{/category}">
-                        Back to list category
-                    </a>
-                </p>
-                <div class="row">
-                    <div class="col-6">
-                        <form th:action="@{/category/save}" th:object="${category}" method="post">
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <label for="name" class="form-label">Name</label>
-                                    </div>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" id="name" th:field="*{name}" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-3"></div>
-                                    <div class="col-4">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<h1>Create Category</h1>
+<p>
+    <a href="/category/">Category list</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/category/save}" th:object="${category}" method="post">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+
+        <tr>
+            <td><button type="submit">Create </button></td>
+        </tr>
+
+    </table>
+</form>
 </body>
 </html>

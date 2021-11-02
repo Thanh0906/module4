@@ -20,11 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d444dbc-1d2a-4d37-80bb-e5b837dfee24" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/delete.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../ss1_tong_quan_spring_mvc/thuc_hanh/tao_ung_dung_quan_ly_khach_hang/customer-management" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ss1_tong_quan_spring_mvc/thuc_hanh/tao_ung_dung_quan_ly_khach_hang/customer-management" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ss6_jpa/bai_tap/tao_blog/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ss6_jpa/bai_tap/tao_blog/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blog-upload/src/main/java/com/codegym/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../blog-upload/src/main/java/com/codegym/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../blog-upload/src/main/resources/templates/category/list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codegym/cms/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codegym/cms/model/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codegym/cms/configuration/ProvinceService.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,6 +174,7 @@
       <workItem from="1635818913687" duration="3043000" />
       <workItem from="1635828142437" duration="960000" />
       <workItem from="1635844403360" duration="1040000" />
+      <workItem from="1635857391982" duration="1166000" />
     </task>
     <servers />
   </component>
