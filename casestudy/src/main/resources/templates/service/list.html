@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/service/create">Create new customer</a>
+<h1>Service</h1>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Area</th>
+        <th>cost</th>
+        <th>maxPeople</th>
+        <th>rentTypeId</th>
+        <th>serviceTypeId</th>
+        <th>standardRoom</th>
+        <th>description</th>
+        <th>numberOfFloors</th>
+    </tr>
+    <th:block th:each="sv : ${services}">
+        <tr>
+            <td th:text="${sv.name}"></td>
+            <td th:text="${sv.area}"></td>
+            <td th:text="${sv.cost}"></td>
+            <td th:text="${sv.maxPeople}"></td>
+            <td th:text="${sv.rentTypeId}"></td>
+            <td th:text="${sv.serviceTypeId}"></td>
+            <td th:text="${sv.standardRoom}"></td>
+            <td th:text="${sv.description}"></td>
+            <td th:text="${sv.numberOfFloors}"></td>
+
+        </tr>
+    </th:block>
+
+</table>
+
+
+</body>
+</html>

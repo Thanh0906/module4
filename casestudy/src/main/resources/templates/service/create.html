@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Create Service</h1>
+<p>
+    <a href="/service/list">Service list</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/service/save}" th:object="${service}" method="post">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td>area:</td>
+            <td><input type="text" th:field="*{area}"/></td>
+        </tr>
+        <tr>
+            <td>cost:</td>
+            <td><input type="text" th:field="*{cost}"/></td>
+        </tr>
+        <tr>
+            <td>maxPeople:</td>
+            <td><input type="text" th:field="*{maxPeople}"/></td>
+        </tr>
+        <tr>
+            <td>rentTypeId:</td>
+            <td><input type="text" th:field="*{rentTypeId}"/></td>
+        </tr>
+        <tr>
+            <td>serviceTypeId:</td>
+            <td><input type="text" th:field="*{serviceTypeId}"/></td>
+        </tr>
+
+        <tr>
+            <td>standardRoom:</td>
+            <td><input type="text" th:field="*{standardRoom}"/></td>
+        </tr>
+        <tr>
+            <td>description:</td>
+            <td><input type="text" th:field="*{description}"/></td>
+        </tr>
+        <tr>
+            <td>Number floors:</td>
+            <td><input type="text" th:field="*{numberOfFloors}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create customer"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
