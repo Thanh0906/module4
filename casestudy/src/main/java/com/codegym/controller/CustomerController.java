@@ -1,17 +1,23 @@
 package com.codegym.controller;
 
+import com.codegym.dto.CustomerDto;
 import com.codegym.model.Customer;
 import com.codegym.repository.ICustomerRepository;
 import com.codegym.service.ICustomerService;
 import com.codegym.service.impl.CustomerServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -49,6 +55,29 @@ public class CustomerController {
         Page<Customer> customerList = customerService.findAll(pageable);
         model.addAttribute("customerList",customerList);
         return "/customer/list";
+    }
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        Optional<Customer> customer = customerService.findById(id);
+        ModelAndView modelAndView;
+        if (customer != null) {
+            modelAndView = new ModelAndView("/customer/edit");
+            modelAndView.addObject("customer", customer);
+        } else {
+            modelAndView = new ModelAndView("/error.404");
+        }
+        return modelAndView;
+    }
+    @PostMapping("/update")
+    public String update ( @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "customer/edit";
+        } else {
+            Customer customers = new Customer();
+            BeanUtils.copyProperties(customer, customers);
+            customerService.save(customer);
+            return "redirect:/customer";
+        }
     }
 
 }

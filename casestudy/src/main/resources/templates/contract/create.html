@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Create Contract</h1>
+<p>
+    <a href="/contract/list">Contract list</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/contract/save}" th:object="${contract}" method="post">
+    <table>
+        <tr>
+            <td>startDate:</td>
+            <td><input type="text" th:field="*{startDate}"/></td>
+        </tr>
+        <tr>
+            <td>endDayy:</td>
+            <td><input type="text" th:field="*{endDate}"/></td>
+        </tr>
+        <tr>
+            <td>deposit:</td>
+            <td><input type="text" th:field="*{deposit}"/></td>
+        </tr>
+        <tr>
+            <td>total money:</td>
+            <td><input type="text" th:field="*{totalMoney}"/></td>
+        </tr>
+        <tr>
+            <td>employee id:</td>
+            <td><input type="text" th:field="*{employeeId}"/></td>
+        </tr>
+        <tr>
+            <td>customer id:</td>
+            <td><input type="text" th:field="*{customerId}"/></td>
+        </tr>
+
+        <tr>
+            <td>service id</td>
+            <td><input type="text" th:field="*{serviceId}"/></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create customer"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

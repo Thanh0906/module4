@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/employee/create">Create new Employee</a>
+<h1>Employee</h1>
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>Birthday</th>
+        <th>idCard</th>
+        <th>salary</th>
+        <th>phone</th>
+        <th>email</th>
+        <th>address</th>
+        <th>positionId</th>
+        <th>educationDegreeId</th>
+        <th>divisionId;</th>
+        <th>username</th>
+        <th>delete</th>
+    </tr>
+    <th:block th:each="employee : ${employee}">
+        <tr>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.birthday}"></td>
+            <td th:text="${employee.idCard}"></td>
+            <td th:text="${employee.salary}"></td>
+            <td th:text="${employee.idCard}"></td>
+            <td th:text="${employee.phone}"></td>
+            <td th:text="${employee.email}"></td>
+            <td th:text="${employee.address}"></td>
+            <td th:text="${employee.positionId}"></td>
+            <td th:text="${employee.educationDegreeId}"></td>
+            <td th:text="${employee.divisionId}"></td>
+            <td th:text="${employee.username}"></td>
+            <td><a th:href="@{/employee/delete/__${employee.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+
+</table>
+<div>
+    <a th:href="@{'/employee/list'(page=${employee.number - 1})}" th:if="${employee.hasPrevious()}">Previous</a>
+    <span th:text="${employee.number + 1}"></span>/<span th:text="${employee.totalPages}"></span>
+    <a th:href="@{'/employee/list'(page=${employee.number + 1})}" th:if="${employee.hasNext()}">Next</a>
+</div>
+
+</body>
+</html>

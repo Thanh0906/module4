@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/contract/create">Create new Contract</a>
+<h1>Contract</h1>
+<table border="1">
+    <tr>
+        <th>Start day</th>
+        <th>end day</th>
+        <th>deposit</th>
+        <th>total money</th>
+        <th>employee</th>
+        <th>customer id</th>
+        <th>service id</th>
+    </tr>
+    <th:block th:each="ct : ${contract}">
+        <tr>
+            <td th:text="${ct.startDate}"></td>
+            <td th:text="${ct.endDate}"></td>
+            <td th:text="${ct.deposit}"></td>
+            <td th:text="${ct.totalMoney}"></td>
+            <td th:text="${ct.employeeId}"></td>
+            <td th:text="${ct.customerId}"></td>
+            <td th:text="${ct.serviceId}"></td>
+        </tr>
+    </th:block>
+
+</table>
+</body>
+</html>
