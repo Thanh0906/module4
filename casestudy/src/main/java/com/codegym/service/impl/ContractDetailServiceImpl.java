@@ -4,10 +4,11 @@ import com.codegym.model.ContractDetail;
 import com.codegym.repository.ContractDetailRepository;
 import com.codegym.service.IContractDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ContractDetailServiceImpl implements IContractDetailService {
     @Autowired
     private ContractDetailRepository contractDetailRepository;

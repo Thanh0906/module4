@@ -4,10 +4,11 @@ import com.codegym.model.Division;
 import com.codegym.repository.IDivisionRepository;
 import com.codegym.service.IDivisionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class DivisionServiceImpl implements IDivisionService {
     @Autowired
     public IDivisionRepository divisionRepository;

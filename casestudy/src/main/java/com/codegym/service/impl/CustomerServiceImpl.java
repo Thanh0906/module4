@@ -36,6 +36,11 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
+    public void update(Customer customer) {
+        customerRepository.save(customer);
+    }
+
+    @Override
     public Page<Customer> findAll(Pageable pageable) {
         return customerRepository.findAll(pageable);
     }

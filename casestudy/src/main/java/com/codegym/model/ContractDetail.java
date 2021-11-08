@@ -1,27 +1,29 @@
 package com.codegym.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class ContractDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int contractId;
-    private int attachServiceId;
     private int quantity;
+    @ManyToOne(targetEntity = Contract.class)
+    @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    private Contract contract;
+
+    @ManyToOne(targetEntity = AttachService.class)
+    @JoinColumn(name = "attach_service_id", referencedColumnName = "id")
+    private AttachService attachService;
 
     public ContractDetail() {
     }
 
-    public ContractDetail(Long id, int contractId, int attachServiceId, int quantity) {
+    public ContractDetail(Long id, int quantity, Contract contract, AttachService attachService) {
         this.id = id;
-        this.contractId = contractId;
-        this.attachServiceId = attachServiceId;
         this.quantity = quantity;
+        this.contract = contract;
+        this.attachService = attachService;
     }
 
     public Long getId() {
@@ -32,27 +34,27 @@ public class ContractDetail {
         this.id = id;
     }
 
-    public int getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(int contractId) {
-        this.contractId = contractId;
-    }
-
-    public int getAttachServiceId() {
-        return attachServiceId;
-    }
-
-    public void setAttachServiceId(int attachServiceId) {
-        this.attachServiceId = attachServiceId;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    public AttachService getAttachService() {
+        return attachService;
+    }
+
+    public void setAttachService(AttachService attachService) {
+        this.attachService = attachService;
     }
 }

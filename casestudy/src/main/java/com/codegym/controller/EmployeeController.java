@@ -1,12 +1,16 @@
 package com.codegym.controller;
 
-import com.codegym.model.Customer;
-import com.codegym.model.Employee;
+import com.codegym.model.*;
+import com.codegym.service.IUserService;
+import com.codegym.service.impl.DivisionServiceImpl;
+import com.codegym.service.impl.EducationDegreeServiceImpl;
 import com.codegym.service.impl.EmployeeServiceImpl;
+import com.codegym.service.impl.PositionServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +25,37 @@ import java.util.Optional;
 public class EmployeeController {
     @Autowired
     public EmployeeServiceImpl employeeService;
+    @Autowired
+    public DivisionServiceImpl iDivisionService;
+    @Autowired
+    public PositionServiceImpl iPositionService;
+    @Autowired
+    EducationDegreeServiceImpl iEducationService;
+    @Autowired
+    IUserService iUserService;
+    @ModelAttribute("divisionList")
+    public Iterable<Division> getDivision() {
+        return iDivisionService.findAll();
+    }
+
+    @ModelAttribute("positionList")
+    public Iterable<Position> getPosition() {
+        return iPositionService.findAll();
+    }
+
+    @ModelAttribute("educationList")
+    public Iterable<EducationDegree> getEducation() {
+        return iEducationService.findAll();
+    }
+
+
+    @GetMapping("/list")
+    public String showIndex(@PageableDefault(value = 5) Pageable pageable, Model model) {
+        Page<Employee> employeeList = employeeService.findAll(pageable);
+        model.addAttribute("employeeList", employeeList);
+        return "/employee/list";
+    }
+
     @GetMapping("/create")
     public ModelAndView showCreateForm () {
         ModelAndView modelAndView = new ModelAndView("employee/create");
@@ -29,50 +64,35 @@ public class EmployeeController {
     }
     @PostMapping("/create")
     public ModelAndView saveEmployee(@ModelAttribute("employee") Employee employee) {
-       employeeService.save(employee);
+        employeeService.save(employee);
         ModelAndView modelAndView = new ModelAndView("/employee/create");
-        modelAndView.addObject("employee", new Employee());
+        modelAndView.addObject("employeeList", new Customer());
         modelAndView.addObject("message", "New customer created successfully");
         return modelAndView;
     }
 
-    @GetMapping("/list")
-    public ModelAndView listCustomers( @PageableDefault(size = 4) Pageable pageable){
-        Page<Employee> employees = employeeService.findAll(pageable);
-        ModelAndView modelAndView = new ModelAndView("/employee/list");
-        modelAndView.addObject("employees", employees);
-        return modelAndView;
-    }
-    @GetMapping("/delete")
-    public String delete(@RequestParam("id")Long id, Model model, @PageableDefault(value = 10)Pageable pageable){
-        employeeService.remove(id);
-        model.addAttribute("success","Delete customer successfully !");
-        Page<Employee> employees = employeeService.findAll(pageable);
-        model.addAttribute("employee",employees);
-        return "/employee/list";
-    }
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id) {
-        Optional<Employee> employee = employeeService.findById(id);
-        ModelAndView modelAndView;
-        if (employee!= null) {
-            modelAndView = new ModelAndView("/employee/edit");
-            modelAndView.addObject("employee", employee);
-        } else {
-            modelAndView = new ModelAndView("/error.404");
-        }
-        return modelAndView;
-    }
-    @PostMapping("/update")
-    public String update ( @ModelAttribute("employee") Employee employee, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()) {
-            return "employee/edit";
-        } else {
-            Employee employee1 = new Employee();
-            BeanUtils.copyProperties(employee, employee1);
-            employeeService.save(employee);
-            return "redirect:/employee";
-        }
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Optional<Employee> employeeEdit = employeeService.findById(id);
+        model.addAttribute("employeeEdit", employeeEdit);
+        return "/employee/edit";
     }
 
+    @PostMapping("/edit")
+    public String showEditForm(@ModelAttribute("employeeEdit") Employee employee, Model model) {
+        employeeService.save(employee);
+        model.addAttribute("success", "Update customer successfully !");
+        return "/employee/edit";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 5) Pageable pageable) {
+        employeeService.remove(id);
+        model.addAttribute("success", "Delete employee successfully !");
+        Page<Employee> employeeList = employeeService.findAll(pageable);
+        model.addAttribute("employeeList", employeeList);
+        return "/employee/list";
+    }
 }
+
+

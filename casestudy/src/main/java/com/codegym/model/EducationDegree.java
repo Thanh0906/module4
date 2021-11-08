@@ -1,9 +1,8 @@
 package com.codegym.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 public class EducationDegree {
@@ -11,6 +10,8 @@ public class EducationDegree {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "educationDegree")
+    private List<Employee> employees;
 
     public EducationDegree() {
     }

@@ -1,9 +1,8 @@
 package com.codegym.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 public class Contract {
@@ -14,22 +13,41 @@ public class Contract {
     private String endDate;
     private double deposit;
     private double totalMoney;
-    private int employeeId;
-    private int customerId;
-    private int serviceId;
+    @ManyToOne(targetEntity = Employee.class)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
+
+    @ManyToOne(targetEntity = Customer.class)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id", referencedColumnName = "id")
+    private Service service;
+
+    @OneToMany(mappedBy = "contract")
+    private List<ContractDetail> contractDetails;
 
     public Contract() {
     }
 
-    public Contract(Long id, String startDate, String endDate, double deposit, double totalMoney, int employeeId, int customerId, int serviceId) {
+    public Contract(Long id, String startDate, String endDate, double deposit, double totalMoney) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.deposit = deposit;
         this.totalMoney = totalMoney;
-        this.employeeId = employeeId;
-        this.customerId = customerId;
-        this.serviceId = serviceId;
+    }
+
+    public Contract(Long id, String startDate, String endDate, double deposit, double totalMoney, Employee employee, Customer customer, Service service) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.deposit = deposit;
+        this.totalMoney = totalMoney;
+        this.employee = employee;
+        this.customer = customer;
+        this.service = service;
     }
 
     public Long getId() {
@@ -72,27 +90,27 @@ public class Contract {
         this.totalMoney = totalMoney;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public int getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
+    public void setService(Service service) {
+        this.service = service;
     }
 }

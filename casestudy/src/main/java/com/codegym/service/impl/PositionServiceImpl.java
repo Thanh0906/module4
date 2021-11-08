@@ -4,10 +4,12 @@ import com.codegym.model.Position;
 import com.codegym.repository.IPositionRepository;
 import com.codegym.service.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.Entity;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PositionServiceImpl implements IPositionService {
     @Autowired
     public IPositionRepository positionRepository;

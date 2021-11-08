@@ -1,9 +1,10 @@
 package com.codegym.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+
+@Entity
 public class RenType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,6 +12,8 @@ public class RenType {
     private String name;
     private double cost;
 
+    @OneToMany(mappedBy = "renType")
+    private List<Service> services;
     public RenType() {
     }
 

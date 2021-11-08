@@ -4,10 +4,11 @@ import com.codegym.model.RenType;
 import com.codegym.repository.IRentTypeRepository;
 import com.codegym.service.IRenTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class RentTypeServiceImpl implements IRenTypeService {
     @Autowired
     private IRentTypeRepository rentTypeRepository;

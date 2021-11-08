@@ -1,69 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="/layout :: head">
 </head>
 <body>
-<h1>Create Employee</h1>
-<p>
-    <a href="/employee/list">Customer list</a>
-</p>
-<th:block th:if="${message}">
-    <p th:text="${message}"></p>
-</th:block>
-<form th:action="@{/employee/create}" th:object="${employee}" method="post">
-    <table>
-        <tr>
-            <td>name:</td>
-            <td><input type="text" th:field="*{name}"/></td>
-        </tr>
-        <tr>
-            <td>birthday:</td>
-            <td><input type="text" th:field="*{birthday}"/></td>
-        </tr>
-        <tr>
-            <td>idCard:</td>
-            <td><input type="text" th:field="*{idCard}"/></td>
-        </tr>
-        <tr>
-            <td>salary:</td>
-            <td><input type="text" th:field="*{salary}"/></td>
-        </tr>
-        <tr>
-            <td>phone:</td>
-            <td><input type="text" th:field="*{phone}"/></td>
-        </tr>
-        <tr>
-            <td>email:</td>
-            <td><input type="text" th:field="*{email}"/></td>
-        </tr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="/layout :: navbar">
+            </div>
+        </div>
+    </div>
+    <div class="row">
 
-        <tr>
-            <td>address:</td>
-            <td><input type="text" th:field="*{address}"/></td>
-        </tr>
-        <tr>
-            <td>positionId:</td>
-            <td><input type="text" th:field="*{positionId}"/></td>
-        </tr>
-        <tr>
-            <td>educationDegreeId:</td>
-            <td><input type="text" th:field="*{educationDegreeId}"/></td>
-        </tr>
-        <tr>
-            <td>divisionId:</td>
-            <td><input type="text" th:field="*{divisionId}"/></td>
-        </tr>
-        <tr>
-            <td>username:</td>
-            <td><input type="text" th:field="*{username}"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Create Employee"></td>
-        </tr>
-    </table>
-</form>
+        <div class="col-10">
+            <div class="row">
+                <div class="col-12">
+                    <a class="nav-link" href="/employee/list">
+                        <button class="btn btn-outline-success">Back to Employee Page</button>
+                    </a>
+                    <span class="text-success" th:if="${message}" th:text="${message}"></span>
+                    <h2 class="text-center text-primary">CREATE EMPLOYEE</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <form th:action="@{/employee/create}" th:object="${employee}" method="post" >
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Employee Name</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="birthDay" class="form-label">Day of Birth</label>
+                            <input type="date" class="form-control" id="birthDay" th:field="*{birthday}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="idCard" class="form-label">ID Card</label>
+                            <input type="text" class="form-control" id="idCard" th:field="*{idCard}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="salary" class="form-label">Salary</label>
+                            <input type="number" class="form-control" id="salary" th:field="*{salary}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="phone" class="form-label">Number Phone</label>
+                            <input type="text" class="form-control" id="phone" th:field="*{phone}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" th:field="*{email}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" th:field="*{address}" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="position"  class="form-label">Position</label><br>
+                            <select id="position" class="form-control" th:field="*{position}">
+                                <option th:each="pos:${positionList}" th:value="${pos.id}" th:text="${pos.name}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="education"  class="form-label">Education Degree</label><br>
+                            <select id="education" class="form-control" th:field="*{educationDegree}">
+                                <option th:each="education:${educationList}" th:value="${education.id}" th:text="${education.name}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="division"  class="form-label">Division</label><br>
+                            <select id="division" class="form-control" th:field="*{division}">
+                                <option th:each="division:${divisionList}" th:value="${division.id}" th:text="${division.name}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" th:field="*{username}" >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="/layout :: script">
+</div>
 </body>
 </html>

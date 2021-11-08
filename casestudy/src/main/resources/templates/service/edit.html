@@ -3,28 +3,27 @@
 <head th:replace="/layout :: head">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div th:replace="/layout :: navbar">
-            </div>
+<div class="row">
+    <div class="col-12">
+        <div th:replace="/layout :: navbar">
         </div>
     </div>
+</div>
+<div class="container-fluid">
     <div class="row">
-
         <div class="col-10">
             <div class="row">
                 <div class="col-12">
                     <a class="nav-link" href="/service/list">
                         <button class="btn btn-outline-success">Back to Service Page</button>
                     </a>
-                    <span class="text-success" th:if="${message}" th:text="${message}"></span>
-                    <h2 class="text-center text-primary">CREATE SERVICE</h2>
+                    <span class="text-success" th:if="${success}" th:text="${success}"></span>
+                    <h2 class="text-center text-primary">EDIT SERVICE</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{/service/create}" th:object="${service}" method="post" >
+                    <form th:action="@{/service/edit}" th:object="${serviceEdit}" method="post" >
                         <div class="mb-2">
                             <label for="name" class="form-label">Service Name</label>
                             <input type="text" class="form-control" id="name" th:field="*{name}" >
@@ -81,4 +80,3 @@
 <div th:replace="/layout :: script">
 </div>
 </body>
-</html>

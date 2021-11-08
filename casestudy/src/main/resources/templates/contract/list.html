@@ -1,34 +1,137 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="/layout :: head">
 </head>
 <body>
-<a href="/contract/create">Create new Contract</a>
-<h1>Contract</h1>
-<table border="1">
-    <tr>
-        <th>Start day</th>
-        <th>end day</th>
-        <th>deposit</th>
-        <th>total money</th>
-        <th>employee</th>
-        <th>customer id</th>
-        <th>service id</th>
-    </tr>
-    <th:block th:each="ct : ${contract}">
-        <tr>
-            <td th:text="${ct.startDate}"></td>
-            <td th:text="${ct.endDate}"></td>
-            <td th:text="${ct.deposit}"></td>
-            <td th:text="${ct.totalMoney}"></td>
-            <td th:text="${ct.employeeId}"></td>
-            <td th:text="${ct.customerId}"></td>
-            <td th:text="${ct.serviceId}"></td>
-        </tr>
-    </th:block>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 ">
+            <div th:replace="/layout :: navbar">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-2">
+                    <a class="nav-link" href="/contract/create">
+                        <button class="btn btn-outline-success"><i class="far fa-plus-square"></i> Add Contract</button>
+                    </a>
+                </div>
+                <div class="col-8 text-center">
 
-</table>
+                </div>
+
+            </div>
+            <div class="row">
+                <table class="table table-striped table-inverse table-responsive"
+                       style="display: inline-block; width: 100%; overflow-x: auto">
+                    <thead class="thead-inverse">
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Deposit</th>
+                        <th>Total Money</th>
+                        <th>Employee</th>
+                        <th>Customer</th>
+                        <th>Service</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Select</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="contract :${contract}">
+
+                        <td th:text="${contract.id}"></td>
+                        <td th:text="${contract.startDate}"></td>
+                        <td th:text="${contract.endDate}">
+                        <td th:text="${contract.deposit}">
+                        <td th:text="${contract.totalMoney}">
+                        <td th:text="${contract.employee.name}">
+                        <td th:text="${contract.customer.customerName}">
+                        <td th:text="${contract.service.name}">
+                        <td>
+                            <a th:href="@{/contract/edit/{id}(id=${contract.id})}">
+                                <button class="btn btn-primary" type="button">Edit <i class="far fa-edit"></i>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button th:onclick="|onDelete('${contract.id}')|" type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal DELETE -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/contract/delete">
+                <!--                    <input type="hidden" name="action" value="delete">-->
+                <input type="hidden" name="idContract" id="idContract">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        Are you sure to delete ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</div>
+<div th:replace="/layout :: script">
+</div>
+
+<script>
+    function onDelete(id) {
+        document.getElementById("idContract").value = id;
+    }
+
+    function getAllId() {
+        document.getElementById("allIdContract").value = "";
+        let array = [];
+        let checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+        for (let i = 0; i < checkboxes.length; i++) {
+            array.push(checkboxes[i].value);
+        }
+        for (let i = 0; i < array.length; i++) {
+            document.getElementById("allIdContract").value += "," + array[i];
+        }
+    }
+
+    $('#exampleModal').on('show.bs.modal', event => {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+    });
+</script>
+
 </body>
 </html>

@@ -1,9 +1,8 @@
 package com.codegym.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Employee {
@@ -17,15 +16,27 @@ public class Employee {
     private String phone;
     private String email;
     private String address;
-    private int positionId;
-    private int educationDegreeId;
-    private int divisionId;
     private String username;
+
+    @ManyToOne(targetEntity = Position.class)
+    @JoinColumn(name = "position_id", referencedColumnName = "id")
+
+    private Position position;
+    @ManyToOne(targetEntity = EducationDegree.class)
+    @JoinColumn(name = "education_degree_id", referencedColumnName = "id")
+    private EducationDegree educationDegree;
+
+    @ManyToOne(targetEntity = Division.class)
+    @JoinColumn(name = "division_id", referencedColumnName = "id")
+    private Division division;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Contract> contracts;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, int positionId, int educationDegreeId, int divisionId, String username) {
+    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, Position position, EducationDegree educationDegree, Division division, String username, List<Contract> contracts) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -34,9 +45,22 @@ public class Employee {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.positionId = positionId;
-        this.educationDegreeId = educationDegreeId;
-        this.divisionId = divisionId;
+        this.position = position;
+        this.educationDegree = educationDegree;
+        this.division = division;
+        this.username = username;
+        this.contracts = contracts;
+    }
+
+    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, String username) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.idCard = idCard;
+        this.salary = salary;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
         this.username = username;
     }
 
@@ -104,28 +128,28 @@ public class Employee {
         this.address = address;
     }
 
-    public int getPositionId() {
-        return positionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
-    public int getEducationDegreeId() {
-        return educationDegreeId;
+    public EducationDegree getEducationDegree() {
+        return educationDegree;
     }
 
-    public void setEducationDegreeId(int educationDegreeId) {
-        this.educationDegreeId = educationDegreeId;
+    public void setEducationDegree(EducationDegree educationDegree) {
+        this.educationDegree = educationDegree;
     }
 
-    public int getDivisionId() {
-        return divisionId;
+    public Division getDivision() {
+        return division;
     }
 
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
     public String getUsername() {
@@ -134,5 +158,13 @@ public class Employee {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

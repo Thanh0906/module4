@@ -2,9 +2,10 @@ package com.codegym.controller;
 
 import com.codegym.dto.CustomerDto;
 import com.codegym.model.Customer;
-import com.codegym.repository.ICustomerRepository;
-import com.codegym.service.ICustomerService;
+import com.codegym.model.CustomerType;
+
 import com.codegym.service.impl.CustomerServiceImpl;
+import com.codegym.service.impl.CustomerTypeServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 
@@ -25,6 +25,13 @@ import java.util.Optional;
 public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
+    @Autowired
+    private CustomerTypeServiceImpl customerTypeService;
+
+    @ModelAttribute("customerType")
+    public Iterable<CustomerType> getType(){
+        return  customerTypeService.findAll();
+    }
 
     @GetMapping("/create")
     public ModelAndView showCreateForm () {
@@ -56,28 +63,19 @@ public class CustomerController {
         model.addAttribute("customerList",customerList);
         return "/customer/list";
     }
+
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id) {
+    public String showEditForm(@PathVariable Long id,Model model) {
         Optional<Customer> customer = customerService.findById(id);
-        ModelAndView modelAndView;
-        if (customer != null) {
-            modelAndView = new ModelAndView("/customer/edit");
-            modelAndView.addObject("customer", customer);
-        } else {
-            modelAndView = new ModelAndView("/error.404");
-        }
-        return modelAndView;
+        model.addAttribute("customer",customer);
+        return "/customer/edit";
+
     }
-    @PostMapping("/update")
-    public String update ( @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()) {
-            return "customer/edit";
-        } else {
-            Customer customers = new Customer();
-            BeanUtils.copyProperties(customer, customers);
-            customerService.save(customer);
-            return "redirect:/customer";
-        }
+    @PostMapping("/edit")
+    public String showEditForm(@ModelAttribute("customerEdit") Customer customer, Model model) {
+        customerService.save(customer);
+        model.addAttribute("success", "Update customer successfully !");
+        return "/customer/edit";
     }
 
 }

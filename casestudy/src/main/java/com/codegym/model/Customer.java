@@ -1,9 +1,8 @@
 package com.codegym.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 public class Customer {
@@ -18,6 +17,12 @@ public class Customer {
     private String numberPhone;
     private String email;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "customer_type_id", referencedColumnName = "customerTypeId")
+    private CustomerType customerType;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Contract> contracts;
 
     public Customer() {
     }
@@ -32,6 +37,20 @@ public class Customer {
         this.numberPhone = numberPhone;
         this.email = email;
         this.address = address;
+    }
+
+    public Customer(Long id, String customerCode, String customerName, String customerBirthday, int gender, String idCard, String numberPhone, String email, String address, CustomerType customerType, List<Contract> contracts) {
+        this.id = id;
+        this.customerCode = customerCode;
+        this.customerName = customerName;
+        this.customerBirthday = customerBirthday;
+        this.gender = gender;
+        this.idCard = idCard;
+        this.numberPhone = numberPhone;
+        this.email = email;
+        this.address = address;
+        this.customerType = customerType;
+        this.contracts = contracts;
     }
 
     public Long getId() {
@@ -104,5 +123,21 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 }
