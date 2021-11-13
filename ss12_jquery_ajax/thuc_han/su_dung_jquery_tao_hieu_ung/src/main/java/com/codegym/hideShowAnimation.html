@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#hide").click(function(){
+                $("div").hide();
+            });
+            $("#show").click(function(){
+                $("div").show();
+                var div = $("div");
+                div.animate({left: '250px'}, "slow");
+                div.animate({top: '150px'}, "slow");
+                div.animate({fontSize: '100px'}, "slow");
+            });
+        });
+    </script>
+</head>
+<body>
+<button id="hide">hide</button>
+<button id="show">Show</button>
+
+<div style="background:orange;height: 100px;width: 150px;position: absolute">Hello</div>
+</body>
+</html>
