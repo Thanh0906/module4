@@ -32,7 +32,7 @@ Producer: <input type="text" id="producer"/><br>
             // data: JSON.stringify(json),
             url: "/api/listPhone",
             success: function (listPhone) {
-                cont = '    <tr>\n' +
+                count = '    <tr>\n' +
                     '        <td>Number</td>\n' +
                     '        <td>Model</td>\n' +
                     '        <td>Price</td>\n' +
@@ -40,9 +40,9 @@ Producer: <input type="text" id="producer"/><br>
                     '        <td>Edit</td>\n' +
                     '    </tr>';
                 for (let i = 0; i < listPhone.length; i++) {
-                    cont += getPhone(i + 1, listPhone[i]);
+                    count += getPhone(i + 1, listPhone[i]);
                 }
-                console.log(cont)
+                console.log(count)
                 document.getElementById('smartphone').innerHTML = cont;
             },
             error: function (err) {

@@ -67,7 +67,7 @@ public class EmployeeController {
         employeeService.save(employee);
         ModelAndView modelAndView = new ModelAndView("/employee/create");
         modelAndView.addObject("employeeList", new Customer());
-        modelAndView.addObject("message", "New customer created successfully");
+        modelAndView.addObject("message", "New customerDto created successfully");
         return modelAndView;
     }
 
@@ -81,7 +81,7 @@ public class EmployeeController {
     @PostMapping("/edit")
     public String showEditForm(@ModelAttribute("employeeEdit") Employee employee, Model model) {
         employeeService.save(employee);
-        model.addAttribute("success", "Update customer successfully !");
+        model.addAttribute("success", "Update customerDto successfully !");
         return "/employee/edit";
     }
 

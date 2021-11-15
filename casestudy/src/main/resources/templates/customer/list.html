@@ -47,11 +47,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="cus,index:${customers}">
-
                         <td th:text="${cus.customerCode}"></td>
                         <td th:text="${cus.customerName}"></td>
                         <td th:text="${cus.customerBirthday}">
-                            <!--Gender-->
                         <td th:if="${cus.gender==0}" th:text="Male"></td>
                         <td th:if="${cus.gender==1}" th:text="Female"></td>
                         <td th:if="${cus.gender==2}" th:text="LGBT"></td>
@@ -70,12 +68,10 @@
                         </td>
                         <td>
                             <button th:onclick="|onDelete('${cus.id}')|" type="button" class="btn btn-danger"
-                                    data-toggle="modal" data-target="#modelId">Delete
+                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
-                       
                     </tr>
-
                     </tbody>
                 </table>
 
@@ -91,33 +87,33 @@
     </div>
 
 </div>
-    <!-- Modal DELETE -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/customer/delete">
-                    <!--                    <input type="hidden" name="action" value="delete">-->
-                    <input type="hidden" name="idCustomer" id="idCustomer">
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            Are you sure to delete ?
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
+<!-- Modal DELETE -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="/customer/delete">
+                <!--                    <input type="hidden" name="action" value="delete">-->
+                <input type="hidden" name="idCustomer" id="idCustomer">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        Are you sure to delete ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
 <div th:replace="/layout :: script">
 </div>

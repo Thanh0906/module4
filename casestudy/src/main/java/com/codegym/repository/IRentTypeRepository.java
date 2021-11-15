@@ -1,7 +1,7 @@
 package com.codegym.repository;
 
-import com.codegym.model.RenType;
+import com.codegym.model.RentType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IRentTypeRepository extends JpaRepository<RenType,Long> {
+public interface IRentTypeRepository extends JpaRepository<RentType,Long> {
 }

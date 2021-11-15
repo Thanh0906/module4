@@ -8,16 +8,18 @@ import com.codegym.service.impl.ContractServiceImpl;
 import com.codegym.service.impl.CustomerServiceImpl;
 import com.codegym.service.impl.EmployeeServiceImpl;
 import com.codegym.service.impl.ServiceServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/contract")
@@ -45,10 +47,9 @@ public class ContractController {
     }
 
     @GetMapping("/list")
-    public ModelAndView list() {
-
-        ModelAndView modelAndView = new ModelAndView("/contract/list");
-        modelAndView.addObject("contract", contractService.findAll());
+    private ModelAndView list (@PageableDefault(value = 5) Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("contract/list");
+        modelAndView.addObject("contracts", contractService.findAll(pageable));
         return modelAndView;
     }
 
@@ -59,13 +60,19 @@ public class ContractController {
         return modelAndView;
     }
 
+    @PostMapping("/save")
+    public String save (@Valid @ModelAttribute Contract contract, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "contract/create";
+        } else {
+            contractService.save(contract);
+            return "redirect:/contract";
+        }
+    }
 
-    @PostMapping("/create")
-    public ModelAndView saveCustomer(@ModelAttribute("contract") Contract contract) {
-       contractService.save(contract);
-        ModelAndView modelAndView = new ModelAndView("/contract/create");
-        modelAndView.addObject("contract", new Contract());
-        modelAndView.addObject("message", "New contract created successfully");
-        return modelAndView;
+    @PostMapping("/delete")
+    public String delete (@RequestParam Long idContract) {
+        contractService.remove(idContract);
+        return "redirect:/contract";
     }
 }

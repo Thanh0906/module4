@@ -10,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-
 
 @Controller
 @RequestMapping("/service")
@@ -24,7 +22,7 @@ public class ServiceController {
     RentTypeServiceImpl rentTypeService;
 
     @ModelAttribute("rentTypies")
-    public Iterable<RenType> getRentTypies() {
+    public Iterable<RentType> getRentTypies() {
         return rentTypeService.findAll();
     }
 

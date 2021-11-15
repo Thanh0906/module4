@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{/customer/edit}" th:object="${customerEdit}" method="post" >
+                    <form th:action="@{/customer/edit}" th:object="${customer}" method="post" >
                         <input type="hidden" th:field="*{id}">
                         <input type="hidden" th:field="*{customerCode}">
                         <div class="mb-2">
@@ -58,7 +58,6 @@
                         </div>
                         <div class="mb-2">
                             <label  class="form-label">Type of Customer</label><br>
-
                             <select class="form-control" th:field="*{customerType}">
                                 <option th:each="type:${customerType}" th:value="${type.customerTypeId}" th:text="${type.customerTypeName}"></option>
                             </select>

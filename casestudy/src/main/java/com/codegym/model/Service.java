@@ -2,7 +2,6 @@ package com.codegym.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Service {
@@ -17,9 +16,9 @@ public class Service {
     private String description;
     private double poolArea;
     private int numberOfFloors;
-    @ManyToOne(targetEntity = RenType.class)
+    @ManyToOne(targetEntity = RentType.class)
     @JoinColumn(name = "rent_type_id", referencedColumnName = "id")
-    private RenType renType;
+    private RentType renType;
 
     @ManyToOne(targetEntity = ServiceType.class)
     @JoinColumn(name = "service_type_id", referencedColumnName = "id")
@@ -31,7 +30,7 @@ public class Service {
     public Service() {
     }
 
-    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RenType renType, ServiceType serviceType) {
+    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RentType renType, ServiceType serviceType) {
         this.id = id;
         this.name = name;
         this.area = area;
@@ -46,11 +45,11 @@ public class Service {
     }
 
 
-    public RenType getRenType() {
+    public RentType getRenType() {
         return renType;
     }
 
-    public void setRenType(RenType renType) {
+    public void setRenType(RentType renType) {
         this.renType = renType;
     }
 
