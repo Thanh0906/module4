@@ -10,8 +10,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
 
+    <div class="row">
         <div class="col-12">
             <div class="row">
                 <div class="col-2">
@@ -22,7 +22,6 @@
                 <div class="col-8 text-center">
                     <span class="text-success" th:if="${success}" th:text="${success}"></span>
                 </div>
-
             </div>
 
             <div class="row">
@@ -31,8 +30,8 @@
                     <thead class="thead-inverse">
                     <tr>
 
-                        <th>ID</th>
-                        <th>Name</th>
+                        <th>Customer COde</th>
+                        <th>Customer Name</th>
                         <th>Birthday</th>
                         <th>Gender</th>
                         <th>Email</th>
@@ -42,11 +41,11 @@
                         <th>Type</th>
                         <th>Edit</th>
                         <th>Delete</th>
-
                     </tr>
                     </thead>
+
                     <tbody>
-                    <tr th:each="cus,index:${customers}">
+                    <tr th:each="cus :${customers}">
                         <td th:text="${cus.customerCode}"></td>
                         <td th:text="${cus.customerName}"></td>
                         <td th:text="${cus.customerBirthday}">
@@ -62,20 +61,21 @@
                         <td th:unless="${cus.customerType}"></td>
                         <td>
                             <a th:href="@{/customer/edit/{id}(id=${cus.id})}">
-                                <button class="btn btn-primary" type="button">Edit </i>
+                                <button class="btn btn-warning" type="button">Edit <i class="fas fa-edit"> </i>
                                 </button>
                             </a>
                         </td>
                         <td>
-                            <button th:onclick="|onDelete('${cus.id}')|" type="button" class="btn btn-danger"
-                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
+                            <button th:onclick="|deleteByModal('${cus.id}')|" type="button"
+                                    class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-
             </div>
+
             <div class="row">
                 <div>
                     <a th:href="@{'/customer/list'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
@@ -87,48 +87,45 @@
     </div>
 
 </div>
-<!-- Modal DELETE -->
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+
+
+<!-- Modal delete-->
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm Delete</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Confirm delete</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/customer/delete">
-                <!--                    <input type="hidden" name="action" value="delete">-->
-                <input type="hidden" name="idCustomer" id="idCustomer">
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        Are you sure to delete ?
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form method="post" id="formDelete" th:action="@{/customer/delete}" hidden>
+                    <input type="text" name="idCustomer" id="idCustomer">
+                </form>
+                Are you sure delete this customer ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" th:onclick="submitForm()">Yes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
         </div>
     </div>
 </div>
+
 
 <div th:replace="/layout :: script">
 </div>
 
 <script>
-    function onDelete(id) {
+    function deleteByModal(id) {
         document.getElementById("idCustomer").value = id;
     }
 
+    function submitForm() {
+        document.getElementById("formDelete").submit();
+    }
 
-
-    $('#exampleModal').on('show.bs.modal', event => {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-    });
 </script>
 
 </body>

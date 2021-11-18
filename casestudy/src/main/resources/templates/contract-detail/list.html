@@ -15,7 +15,8 @@
             <div class="row">
                 <div class="col-2">
                     <a class="nav-link" href="/contract-detail/create">
-                        <button class="btn btn-outline-success"><i class="far fa-plus-square"></i> Add Contract Detail</button>
+                        <button class="btn btn-outline-success"><i class="far fa-plus-square"></i> Add Contract Detail
+                        </button>
                     </a>
                 </div>
                 <div class="col-8 text-center">
@@ -36,38 +37,27 @@
                     <tr>
 
                         <th>ID</th>
+                        <th>Quantity</th>
                         <th>Contract</th>
                         <th>Attach Service</th>
-                        <th>Quantity</th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Select</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="cd,index:${contractDetailList}">
-
-                        <td th:text="${cd.id}"></td>
-                        <td th:text="${cd.contract.id}"></td>
-                        <td th:text="${cd.attachService.id}">
-                        <td th:text="${cd.quantity}">
-
-
-                        <td>
-                            <a th:href="@{/contractDetail/edit/{id}(id=${cd.id})}">
-                                <button class="btn btn-primary" type="button">Edit <i class="far fa-edit"></i>
-                                </button>
-                            </a>
-                        </td>
-                        <td>
-                            <button th:onclick="|onDelete('${cd.id}')|" type="button" class="btn btn-danger"
-                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                        <td><input type="checkbox" class="contractDetailId" th:value="${cd.id}"></td>
+                    <tr th:each="contactDetail :${contractDetail}">
+                        <td th:text=""></td>
                     </tr>
 
+                    <tr th:each="contractDetail : ${contractDetail}">
+                        <td th:text="${contractDetail.quantity}"></td>
+                        <td th:text="${contractDetail.contract}"></td>
+                        <td th:text="${contractDetail.attachService}"></td>
+
+                    </tr>
                     </tbody>
+
                 </table>
 
             </div>

@@ -35,10 +35,6 @@ public class CustomerServiceImpl implements ICustomerService {
         customerRepository.deleteById(id);
     }
 
-    @Override
-    public void update(Customer customer) {
-        customerRepository.save(customer);
-    }
 
     @Override
     public Page<Customer> findAll(Pageable pageable) {

@@ -30,7 +30,7 @@ public class Service {
     public Service() {
     }
 
-    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RentType renType, ServiceType serviceType) {
+    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RentType renType, ServiceType serviceType, List<Contract> contractList) {
         this.id = id;
         this.name = name;
         this.area = area;
@@ -42,7 +42,9 @@ public class Service {
         this.numberOfFloors = numberOfFloors;
         this.renType = renType;
         this.serviceType = serviceType;
+        this.contractList = contractList;
     }
+
 
 
     public RentType getRenType() {

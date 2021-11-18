@@ -6,16 +6,17 @@ import com.codegym.model.CustomerType;
 
 import com.codegym.service.impl.CustomerServiceImpl;
 import com.codegym.service.impl.CustomerTypeServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 
@@ -66,30 +67,29 @@ public class CustomerController {
     }
 
     @GetMapping("/edit/{id}")
-       public ModelAndView showEditForm(@PathVariable Long id) {
-           Optional<Customer> customer = customerService.findById(id);
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        Optional<Customer> customer = customerService.findById(id);
 
-           if (customer != null) {
-               ModelAndView modelAndView = new ModelAndView("/customer/edit");
-               modelAndView.addObject("customer", customer);
-               modelAndView.addObject("customerType",customerTypeService.findAll());
-               return modelAndView;
-           } else {
-               ModelAndView modelAndView = new ModelAndView("/error.404");
-               return modelAndView;
-           }
+        if (customer != null) {
+            ModelAndView modelAndView = new ModelAndView("/customer/edit");
+            modelAndView.addObject("customer", customer);
+            modelAndView.addObject("customerType",customerTypeService.findAll());
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/error.404");
+            return modelAndView;
+        }
 
 
-       }
-       @PostMapping("/edit")
-       public ModelAndView updateCustomer(@ModelAttribute("customer") Customer customer) {
-           customerService.save(customer);
-           ModelAndView modelAndView = new ModelAndView("/customer/edit");
-           modelAndView.addObject("customer", customer);
-           modelAndView.addObject("message", "Customer updated successfully");
-           return modelAndView;
-       }
-
+    }
+    @PostMapping("/edit")
+    public ModelAndView updateCustomer(@ModelAttribute("customer") Customer customer) {
+        customerService.save(customer);
+        ModelAndView modelAndView = new ModelAndView("/customer/edit");
+        modelAndView.addObject("customer", customer);
+        modelAndView.addObject("message", "Customer updated successfully");
+        return modelAndView;
+    }
 
 
 }

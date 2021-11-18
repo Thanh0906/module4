@@ -1,16 +1,19 @@
 package com.codegym.dto;
 
+import com.codegym.model.Customer;
 import com.codegym.model.CustomerType;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDto implements Validator {
     private Long id;
     @NotBlank(message = "không được để trống")
-    @Pattern(regexp = "^(KH-)(\\d{4})$",message = "Phải đúng định dạng KH-XXXX")
+    @Pattern(regexp = "^(KH-)(\\d{4})$", message = "Phải đúng định dạng KH-XXXX")
     private String customerCode;
 
     @NotBlank(message = "Họ tên không được để trống.")
@@ -32,39 +35,15 @@ public class CustomerDto implements Validator {
     @Pattern(regexp = "^(0|(\\(84\\)\\+))+([9][0-1][0-9]{7})$",
             message = "Phải đúng định dạng: 090xxxxxxx hoặc 091xxxxxxx hoặc (84)+90xxxxxxx hoặc (84)+91xxxxxxx")
     private String numberPhone;
+
+    @NotBlank(message = "Email không được để trống.")
+    @Pattern(regexp = "^(?:^|\\s)[\\w!#$%&'*+/=?^`{|}~-](\\.?[\\w!#$%&'*+/=?^`{|}~-]+)*@\\w+[.-]?\\w*\\.[a-zA-Z]{2,3}\\b$",
+            message = "Email phải đúng định dạng.")
     private String email;
     private String address;
     private CustomerType customerType;
 
     public CustomerDto() {
-    }
-
-    public CustomerDto(Long id, @NotBlank(message = "không được để trống") @Pattern(regexp = "^(KH-)(\\d{4})$", message = "Phải đúng định dạng KH-XXXX") String customerCode, @NotBlank(message = "Họ tên không được để trống.") String customerName, String customerBirthday, int gender, String idCard, String numberPhone, String email, String address) {
-        this.id = id;
-        this.customerCode = customerCode;
-        this.customerName = customerName;
-        this.customerBirthday = customerBirthday;
-        this.gender = gender;
-        this.idCard = idCard;
-        this.numberPhone = numberPhone;
-        this.email = email;
-        this.address = address;
-    }
-
-    public CustomerDto(Long id, @NotBlank(message = "không được để trống") @Pattern(regexp = "^(KH-)(\\d{4})$", message = "Phải đúng định dạng KH-XXXX") String customerCode, @NotBlank(message = "Họ tên không được để trống.") String customerName, @NotBlank(message = "Ngày sinh không được để trống.") @Pattern(regexp = "^/(((0|1)[0-9]|2[0-9]|3[0-1])\\/(0[1-9]|1[0-2])/((19|20)\\d\\d))$/",
-            message = "Ngày sinh phải đúng định dạng: dd/MM/yyyy.") String customerBirthday, int gender, @NotBlank(message = "Không được để trống.") @Pattern(regexp = "^([0-9]{9})|([0-9]{12})$",
-            message = "Phải đúng định dạng: XXXXXXXXX hoặc XXXXXXXXXXXX.") String idCard, @NotBlank(message = "Không được để trống.") @Pattern(regexp = "^(0|(\\(84\\)\\+))+([9][0-1][0-9]{7})$",
-            message = "Phải đúng định dạng: 090xxxxxxx hoặc 091xxxxxxx hoặc (84)+90xxxxxxx hoặc (84)+91xxxxxxx") String numberPhone, String email, String address, CustomerType customerType) {
-        this.id = id;
-        this.customerCode = customerCode;
-        this.customerName = customerName;
-        this.customerBirthday = customerBirthday;
-        this.gender = gender;
-        this.idCard = idCard;
-        this.numberPhone = numberPhone;
-        this.email = email;
-        this.address = address;
-        this.customerType = customerType;
     }
 
     public CustomerType getCustomerType() {
@@ -147,6 +126,18 @@ public class CustomerDto implements Validator {
         this.address = address;
     }
 
+    List<Customer> customers = new ArrayList<>();
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
+
+
     @Override
     public boolean supports(Class<?> clazz) {
         return false;
@@ -154,6 +145,8 @@ public class CustomerDto implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        CustomerDto customerDto = (CustomerDto) target;
+
 
     }
 }

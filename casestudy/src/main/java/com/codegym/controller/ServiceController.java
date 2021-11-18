@@ -1,42 +1,49 @@
 package com.codegym.controller;
 
-import com.codegym.model.*;
-import com.codegym.service.impl.RentTypeServiceImpl;
-import com.codegym.service.impl.ServiceServiceImpl;
-import com.codegym.service.impl.ServiceTypeServiceImpl;
+import com.codegym.model.RentType;
+import com.codegym.model.Service;
+import com.codegym.model.ServiceType;
+import com.codegym.service.IRenTypeService;
+import com.codegym.service.IServiceService;
+import com.codegym.service.IServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
 @RequestMapping("/service")
 public class ServiceController {
     @Autowired
-    public ServiceServiceImpl serviceService;
+    public IServiceService serviceService;
     @Autowired
-    ServiceTypeServiceImpl  serviceTypeService;
+    IServiceTypeService  serviceTypeService;
     @Autowired
-    RentTypeServiceImpl rentTypeService;
+    IRenTypeService rentTypeService;
 
-    @ModelAttribute("rentTypies")
-    public Iterable<RentType> getRentTypies() {
+    @ModelAttribute("rentTypeList")
+    public Iterable<RentType> getRentType() {
         return rentTypeService.findAll();
     }
 
-    @ModelAttribute("serviceTypies")
-    public Iterable<ServiceType> getServiceTypies() {
+    @ModelAttribute("serviceTypeList")
+    public Iterable<ServiceType> getServiceType() {
         return serviceTypeService.findAll();
     }
 
+
     @GetMapping("/list")
-    public ModelAndView list() {
+    public ModelAndView listService(@PageableDefault(size =4)Pageable pageable) {
+        Page<Service> services = serviceService.findAll(pageable);
         ModelAndView modelAndView = new ModelAndView("/service/list");
-        modelAndView.addObject("services", serviceService.findAll());
+        modelAndView.addObject("services",services);
         return modelAndView;
     }
+
     @GetMapping("/create")
     public ModelAndView showCreateForm () {
         ModelAndView modelAndView = new ModelAndView("service/create");
@@ -45,7 +52,7 @@ public class ServiceController {
     }
 
     @PostMapping("/create")
-    public ModelAndView saveService(@ModelAttribute("employee") Service service) {
+    public ModelAndView saveService(@ModelAttribute("service") Service service) {
         serviceService.save(service);
         ModelAndView modelAndView = new ModelAndView("/service/create");
         modelAndView.addObject("service", new Service());

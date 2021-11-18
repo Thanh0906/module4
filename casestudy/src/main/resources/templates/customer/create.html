@@ -26,7 +26,7 @@
                 <div class="col-12">
                     <form th:action="@{/customer/create}" th:object="${customer}" method="post" >
                         <div class="mb-2">
-                            <label for="name" class="form-label">Customer Name</label>
+                            <label for="code" class="form-label">Customer Code</label>
                             <input type="text" class="form-control" id="code" th:field="*{customerCode}" >
                         </div>
                         <div class="mb-2">
@@ -34,7 +34,7 @@
                             <input type="text" class="form-control" id="name" th:field="*{customerName}" >
                         </div>
                         <div class="mb-2">
-                            <label for="birthDay" class="form-label">Day of Birth</label>
+                            <label for="birthDay" class="form-label">Birthday</label>
                             <input type="date" class="form-control" id="birthDay" th:field="*{customerBirthday}" >
                         </div>
                         <div class="mb-2">
@@ -62,9 +62,8 @@
                         </div>
                         <div class="mb-2">
                             <label  class="form-label">Type of Customer</label><br>
-
                             <select class="form-control" th:field="*{customerType}">
-                                <option th:each="type:${customerType}" th:value="${type.customerTypeId}" th:text="${type.customerTypeName}"></option>
+                                <option th:each="type :${customertypies}" th:value="${type.customerTypeId}" th:text="${type.customerTypeName}"></option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Create</button>

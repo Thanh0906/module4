@@ -1,6 +1,7 @@
 package com.codegym.service.impl;
 
 import com.codegym.model.ServiceType;
+import com.codegym.repository.IServiceTypeRepository;
 import com.codegym.service.IServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,25 +12,26 @@ import java.util.Optional;
 @Service
 public class ServiceTypeServiceImpl implements IServiceTypeService {
     @Autowired
-    public ServiceTypeServiceImpl serviceTypeService;
+    public IServiceTypeRepository serviceRepository;
+
 
     @Override
     public List<ServiceType> findAll() {
-        return serviceTypeService.findAll();
+        return serviceRepository.findAll();
     }
 
     @Override
     public Optional<ServiceType> findById(Long id) {
-        return serviceTypeService.findById(id);
+        return serviceRepository.findById(id);
     }
 
     @Override
     public void save(ServiceType serviceType) {
-        serviceTypeService.save(serviceType);
+        serviceRepository.save(serviceType);
     }
 
     @Override
     public void remove(Long id) {
-        serviceTypeService.remove(id);
+        serviceRepository.deleteById(id);
     }
 }

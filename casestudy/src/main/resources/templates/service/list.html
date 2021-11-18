@@ -1,41 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="/layout :: head">
 </head>
 <body>
-<a href="/service/create">Create new customer</a>
-<h1>Service</h1>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Area</th>
-        <th>cost</th>
-        <th>maxPeople</th>
-        <th>rentTypeId</th>
-        <th>serviceTypeId</th>
-        <th>standardRoom</th>
-        <th>description</th>
-        <th>numberOfFloors</th>
-    </tr>
-    <th:block th:each="sv : ${services}">
-        <tr>
-            <td th:text="${sv.name}"></td>
-            <td th:text="${sv.area}"></td>
-            <td th:text="${sv.cost}"></td>
-            <td th:text="${sv.maxPeople}"></td>
-            <td th:text="${sv.renType}"></td>
-            <td th:text="${sv.serviceType}"></td>
-            <td th:text="${sv.standardRoom}"></td>
-            <td th:text="${sv.description}"></td>
-            <td th:text="${sv.numberOfFloors}"></td>
+<div th:replace="/layout :: navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-11">
+            <div class="container-fluid">
+                <div class="row m-4 d-flex">
+                    <div class="col-2">
+                        <a th:href="@{/service/create}" class="btn btn-success">
+                            Add new service
+                        </a>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Name</th>
+                            <th>Area</th>
+                            <th>Cost</th>
+                            <th>Max people</th>
+                            <th>Service type</th>
+                            <th>Rent type</th>
+                            <th>Standard room</th>
+                            <th>DOC</th>
+                            <th>Pool area</th>
+                            <th>Floors</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="service : ${services}">
+                            <td th:text="${service.name}"></td>
+                            <td th:text="${service.area}"></td>
+                            <td th:text="${service.cost}"></td>
+                            <td th:text="${service.maxPeople}"></td>
+                            <td th:if="${service.serviceType}" th:text="${service.serviceType.name}"></td>
+                            <td th:unless="${service.serviceType}"></td>
+                            <td th:if="${service.renType}" th:text="${service.renType.name}"></td>
+                            <td th:unless="${service.renType}"></td>
+                            <td th:text="${service.standardRoom}"></td>
+                            <td th:text="${service.description}"></td>
+                            <td th:text="${service.poolArea}"></td>
+                            <td th:text="${service.numberOfFloors}"></td>
+                            <td>
+                                <a th:href="@{/service/edit/{id} (id=${service.id})}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td>
+                                <button th:onclick="|deleteByModal('${service.id}')|" type="button"
+                                        class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-        </tr>
-    </th:block>
+                </div>
+                <div class="row">
+                    <div>
+                        <a th:href="@{'/service/list'(page=${services.number - 1})}" th:if="${services.hasPrevious()}">Previous</a>
+                        <span th:text="${services.number + 1}"></span>/<span th:text="${services.totalPages}"></span>
+                        <a th:href="@{'/service/list'(page=${services.number + 1})}" th:if="${services.hasNext()}">Next</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
-</table>
+<!-- Modal delete-->
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="formDelete" th:action="@{/service/delete}" hidden>
+                    <input type="text" name="idService" id="idService">
+                </form>
+                Are you sure delete this service ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" th:onclick="submitForm()">Yes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<script>
+    function deleteByModal(id) {
+        document.getElementById("id").value = id;
+    }
+
+    function submitForm() {
+        document.getElementById("formDelete").submit();
+    }
+</script>
 </body>
 </html>

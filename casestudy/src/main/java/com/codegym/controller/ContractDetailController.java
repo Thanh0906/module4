@@ -1,5 +1,7 @@
 package com.codegym.controller;
 
+import com.codegym.model.AttachService;
+import com.codegym.model.Contract;
 import com.codegym.model.ContractDetail;
 import com.codegym.service.impl.AttachServiceServiceImpl;
 import com.codegym.service.impl.ContractDetailServiceImpl;
@@ -20,17 +22,26 @@ public class ContractDetailController {
     @Autowired
     public ContractServiceImpl contractService;
 
+    @ModelAttribute("attachServices")
+    private Iterable<AttachService> attachServices () {
+        return attachService.findAll();
+    }
+
+    @ModelAttribute("contracts")
+    private Iterable<Contract> contracts () {
+        return contractService.findAll();
+    }
     @GetMapping("/list")
     public ModelAndView list() {
         ModelAndView modelAndView = new ModelAndView("/contract-detail/list");
-        modelAndView.addObject("services", contractDetailService.findAll());
+        modelAndView.addObject("contractDetail", contractDetailService.findAll());
         return modelAndView;
     }
 
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("contract-detail/create");
-        modelAndView.addObject("service", new ContractDetail());
+        modelAndView.addObject("contractDetail", new ContractDetail());
         return modelAndView;
     }
 

@@ -3,6 +3,7 @@
 <head th:replace="/layout :: head">
 </head>
 <body>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 ">
@@ -10,6 +11,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12">
             <div class="row">
@@ -21,8 +23,8 @@
                 <div class="col-8 text-center">
                     <span class="text-success" th:if="${success}" th:text="${success}"></span>
                 </div>
-
             </div>
+
             <div class="row">
                 <table class="table table-striped table-inverse table-responsive"
                        style="display: inline-block; width: 100%; overflow-x: auto">
@@ -39,15 +41,13 @@
                         <th>Position</th>
                         <th>Education Degree</th>
                         <th>Division</th>
-                        <th>UserName</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>Select</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="employee,index:${employeeList}">
 
+                    <tbody>
+                    <tr th:each="employee:${employeeList}">
                         <td th:text="${employee.id}"></td>
                         <td th:text="${employee.name}"></td>
                         <td th:text="${employee.birthday}"></td>
@@ -56,13 +56,21 @@
                         <td th:text="${employee.phone}"></td>
                         <td th:text="${employee.email}"></td>
                         <td th:text="${employee.address}"></td>
-                        <td th:text="${employee.position}"></td>
-                        <td th:text="${employee.educationDegree}"></td>
-                        <td th:text="${employee.division}"></td>
-                        <td th:text="${employee.username}"></td>
+                        <td th:if="${employee.position}"
+                            th:text="${employee.position.name}"></td>
+                        <td th:unless="${employee.name}"></td>
+
+                        <td th:if="${employee.educationDegree}"
+                            th:text="${employee.educationDegree.name}"></td>
+                        <td th:unless="${employee.name}"></td>
+
+                        <td th:if="${employee.division}"
+                            th:text="${employee.division.name}"></td>
+                        <td th:unless="${employee.name}"></td>
+
                         <td>
                             <a th:href="@{/employee/edit/{id}(id=${employee.id})}">
-                                <button class="btn btn-primary" type="button">Edit <i class="far fa-edit"></i>
+                                <button class="btn btn-warning" type="button">Edit  <i class="fas fa-trash-alt"></i></i>
                                 </button>
                             </a>
                         </td>
@@ -74,19 +82,18 @@
                     </tr>
                     </tbody>
                 </table>
-
             </div>
+
             <div class="row">
                 <div>
                     <a th:href="@{'/employee/list'(page=${employeeList.number - 1})}" th:if="${employeeList.hasPrevious()}">Previous</a>
                     <span th:text="${employeeList.number + 1}"></span>/<span th:text="${employeeList.totalPages}"></span>
                     <a th:href="@{'/employee/list'(page=${employeeList.number + 1})}" th:if="${employeeList.hasNext()}">Next</a>
                 </div>
-
             </div>
         </div>
     </div>
-
+</div>
 
     <!-- Modal DELETE -->
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
@@ -124,10 +131,7 @@
         document.getElementById("idEmployee").value = id;
     }
 
-    $('#exampleModal').on('show.bs.modal', event => {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-    });
+
 </script>
 
 </body>

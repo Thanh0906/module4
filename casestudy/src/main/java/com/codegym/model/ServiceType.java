@@ -12,7 +12,14 @@ public class ServiceType {
     private  String name;
     @OneToMany(mappedBy = "serviceType")
     private List<Service> services;
+
     public ServiceType() {
+    }
+
+    public ServiceType(Long id, String name, List<Service> services) {
+        this.id = id;
+        this.name = name;
+        this.services = services;
     }
 
     public ServiceType(Long id, String name) {

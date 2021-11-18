@@ -20,8 +20,8 @@ public class Employee {
 
     @ManyToOne(targetEntity = Position.class)
     @JoinColumn(name = "position_id", referencedColumnName = "id")
-
     private Position position;
+
     @ManyToOne(targetEntity = EducationDegree.class)
     @JoinColumn(name = "education_degree_id", referencedColumnName = "id")
     private EducationDegree educationDegree;
