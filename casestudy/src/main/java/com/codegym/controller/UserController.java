@@ -16,10 +16,10 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("")
+    @GetMapping("/list")
     private ModelAndView list () {
         ModelAndView modelAndView = new ModelAndView("user/list");
-        modelAndView.addObject("users", userService.findAll());
+        modelAndView.addObject("userList", userService.findAll());
         return modelAndView;
     }
 
@@ -33,6 +33,6 @@ public class UserController {
     @PostMapping("/save")
     public String save (@ModelAttribute User user) {
         userService.save(user);
-        return "redirect:/user";
+        return "/user/list";
     }
 }

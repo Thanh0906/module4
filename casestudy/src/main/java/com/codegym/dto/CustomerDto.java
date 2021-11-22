@@ -5,6 +5,7 @@ import com.codegym.model.CustomerType;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class CustomerDto implements Validator {
     @NotBlank(message = "Ngày sinh không được để trống.")
     @Pattern(regexp = "^(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$",
             message = "Ngày sinh phải đúng định dạng: dd/MM/yyyy.")
+    @Min(value = 18)
     private String customerBirthday;
 
     private int gender;

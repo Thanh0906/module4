@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -67,11 +68,14 @@ public class CustomerController {
         return modelAndView;
     }
 
-    @PostMapping("/delete")
-    public String removeCustomer(@RequestParam Long id) {
-        customerService.remove(id);
-        return "redirect:/customer/list";
 
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 5) Pageable pageable) {
+        customerService.remove(id);
+        model.addAttribute("success", "Delete customer successfully !");
+        Page<Customer> customerList = customerService.findAll(pageable);
+        model.addAttribute("customerList", customerList);
+        return "/customer/list";
     }
 
     @GetMapping("/edit/{id}")

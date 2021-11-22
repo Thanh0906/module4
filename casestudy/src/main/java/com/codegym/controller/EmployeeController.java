@@ -1,6 +1,5 @@
 package com.codegym.controller;
 
-import com.codegym.dto.CustomerDto;
 import com.codegym.dto.EmployeeDto;
 import com.codegym.model.*;
 import com.codegym.service.IUserService;
@@ -12,7 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +49,8 @@ public class EmployeeController {
     public Iterable<EducationDegree> getEducation() {
         return iEducationService.findAll();
     }
+    @ModelAttribute("userList")
+    public Iterable<User> getUser(){return iUserService.findAll();}
 
 
     @GetMapping("/list")
@@ -83,7 +83,6 @@ public class EmployeeController {
             employeeService.save(employee);
             return "redirect:/employee/list";
         }
-
     }
 
     @GetMapping("/edit/{id}")
@@ -116,11 +115,13 @@ public class EmployeeController {
     }
 
 
-    @PostMapping("/delete")
-    public String removeEmployee(@RequestParam Long id) {
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 5) Pageable pageable) {
         employeeService.remove(id);
-        return "redirect:/employee/list";
-
+        model.addAttribute("success", "Delete customer successfully !");
+        Page<Employee> employees = employeeService.findAll(pageable);
+        model.addAttribute("employeeList", employees);
+        return "/employee/list";
     }
 }
 

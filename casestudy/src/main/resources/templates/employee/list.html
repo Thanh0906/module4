@@ -45,6 +45,7 @@
                         <th>Position</th>
                         <th>Education Degree</th>
                         <th>Division</th>
+                        <th>UserName</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -60,6 +61,7 @@
                         <td th:text="${employee.phone}"></td>
                         <td th:text="${employee.email}"></td>
                         <td th:text="${employee.address}"></td>
+
                         <td th:if="${employee.position}"
                             th:text="${employee.position.name}"></td>
                         <td th:unless="${employee.name}"></td>
@@ -70,6 +72,10 @@
 
                         <td th:if="${employee.division}"
                             th:text="${employee.division.name}"></td>
+                        <td th:unless="${employee.name}"></td>
+
+                        <td th:if="${employee.user}"
+                            th:text="${employee.user.name}"></td>
                         <td th:unless="${employee.name}"></td>
 
                         <td>
@@ -111,7 +117,7 @@
                     </button>
                 </div>
                 <form action="/employee/delete">
-                    <input type="hidden" name="idEmployee" id="idEmployee">
+                    <input type="hidden" name="id" id="id">
                     <div class="modal-body">
                         <div class="container-fluid">
                             Are you sure to delete ?
@@ -131,7 +137,7 @@
 
 <script>
     function onDelete(id) {
-        document.getElementById("idEmployee").value = id;
+        document.getElementById("id").value = id;
     }
 
 </script>

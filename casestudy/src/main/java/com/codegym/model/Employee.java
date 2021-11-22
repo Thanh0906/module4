@@ -16,7 +16,6 @@ public class Employee {
     private String phone;
     private String email;
     private String address;
-    private String username;
 
     @ManyToOne(targetEntity = Position.class)
     @JoinColumn(name = "position_id", referencedColumnName = "id")
@@ -30,13 +29,17 @@ public class Employee {
     @JoinColumn(name = "division_id", referencedColumnName = "id")
     private Division division;
 
+    @OneToOne (cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @OneToMany(mappedBy = "employee")
     private List<Contract> contracts;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, Position position, EducationDegree educationDegree, Division division, String username, List<Contract> contracts) {
+    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, Position position, EducationDegree educationDegree, Division division, User user) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -48,20 +51,7 @@ public class Employee {
         this.position = position;
         this.educationDegree = educationDegree;
         this.division = division;
-        this.username = username;
-        this.contracts = contracts;
-    }
-
-    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, String username) {
-        this.id = id;
-        this.name = name;
-        this.birthday = birthday;
-        this.idCard = idCard;
-        this.salary = salary;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.username = username;
+        this.user = user;
     }
 
     public Long getId() {
@@ -152,12 +142,12 @@ public class Employee {
         this.division = division;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Contract> getContracts() {

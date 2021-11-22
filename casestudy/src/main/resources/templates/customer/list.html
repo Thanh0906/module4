@@ -78,9 +78,8 @@
                             </a>
                         </td>
                         <td>
-                            <button th:onclick="|deleteByModal('${cus.id}')|" type="button"
-                                    class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
-                                <i class="fas fa-trash-alt"></i>
+                            <button th:onclick="|onDelete('${cus.id}')|" type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
@@ -103,27 +102,29 @@
 </div>
 
 
-<!-- Modal delete-->
-<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal DELETE -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm delete</h5>
+                <h5 class="modal-title">Confirm Delete</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form method="post" id="formDelete" th:action="@{/customer/delete}" hidden>
-                    <input type="text" name="id" id="id">
-                </form>
-                Bạn có muốn xóa không ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" th:onclick="submitForm()">Yes</button>
-
-            </div>
+            <form action="/customer/delete">
+                <input type="hidden" name="id" id="id">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        Are you sure to delete ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -132,12 +133,8 @@
 </div>
 
 <script>
-    function deleteByModal(customerId) {
-        document.getElementById("id").value = customerId;
-    }
-
-    function submitForm() {
-        document.getElementById("formDelete").submit();
+    function onDelete(id) {
+        document.getElementById("id").value = id;
     }
 
 

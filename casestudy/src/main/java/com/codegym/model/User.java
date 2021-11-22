@@ -1,7 +1,10 @@
 package com.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -9,10 +12,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JoinColumn(unique = true)
     private String name;
     private String password;
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private Employee employee;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
 
     public User() {
     }
