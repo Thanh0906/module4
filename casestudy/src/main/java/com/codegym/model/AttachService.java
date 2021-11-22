@@ -2,7 +2,6 @@ package com.codegym.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class AttachService {
@@ -12,22 +11,15 @@ public class AttachService {
     private String name;
     private double cost;
     private int unit;
-    private boolean status;
+    private String status;
     @OneToMany(mappedBy = "attachService")
     private List<ContractDetail> contractDetails;
 
     public AttachService() {
     }
 
-    public AttachService(Long id, String name, double cost, int unit, boolean status) {
-        this.id = id;
-        this.name = name;
-        this.cost = cost;
-        this.unit = unit;
-        this.status = status;
-    }
 
-    public AttachService(String name, double cost, int unit, boolean status) {
+    public AttachService(String name, double cost, int unit, String status) {
         this.name = name;
         this.cost = cost;
         this.unit = unit;
@@ -66,11 +58,11 @@ public class AttachService {
         this.unit = unit;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

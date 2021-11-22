@@ -18,7 +18,7 @@ public class Service {
     private int numberOfFloors;
     @ManyToOne(targetEntity = RentType.class)
     @JoinColumn(name = "rent_type_id", referencedColumnName = "id")
-    private RentType renType;
+    private RentType rentType;
 
     @ManyToOne(targetEntity = ServiceType.class)
     @JoinColumn(name = "service_type_id", referencedColumnName = "id")
@@ -30,7 +30,7 @@ public class Service {
     public Service() {
     }
 
-    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RentType renType, ServiceType serviceType, List<Contract> contractList) {
+    public Service(Long id, String name, int area, double cost, int maxPeople, String standardRoom, String description, double poolArea, int numberOfFloors, RentType rentType, ServiceType serviceType, List<Contract> contractList) {
         this.id = id;
         this.name = name;
         this.area = area;
@@ -40,19 +40,19 @@ public class Service {
         this.description = description;
         this.poolArea = poolArea;
         this.numberOfFloors = numberOfFloors;
-        this.renType = renType;
+        this.rentType = rentType;
         this.serviceType = serviceType;
         this.contractList = contractList;
     }
 
 
 
-    public RentType getRenType() {
-        return renType;
+    public RentType getRentType() {
+        return rentType;
     }
 
-    public void setRenType(RentType renType) {
-        this.renType = renType;
+    public void setRentType(RentType renType) {
+        this.rentType = renType;
     }
 
     public ServiceType getServiceType() {

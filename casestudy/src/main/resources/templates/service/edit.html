@@ -17,7 +17,7 @@
                 </div>
                 <div class="row m-4 d-flex">
                     <div class="col-6">
-                        <form th:action="@{/service/update}" th:object="${serviceEdit}" method="post">
+                        <form th:action="@{/service/create}" th:object="${serviceEdit}" method="post">
                             <input type="hidden" th:field="*{id}">
                             <div class="mb-3">
                                 <div class="row">
@@ -56,7 +56,7 @@
                                         <label for="serviceMaxPeople" class="form-label">Max people: </label>
                                     </div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" id="serviceMaxPeople" th:field="*{maxPeoPle}">
+                                        <input type="text" class="form-control" id="serviceMaxPeople" th:field="*{maxPeople}">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                         <label for="rentType" class="form-label">Rent type: </label>
                                     </div>
                                     <div class="col-9">
-                                        <select th:field="*{renType}" id="rentType">
+                                        <select th:field="*{rentType}" id="rentType">
                                             <option selected value="">Select</option>
                                             <option th:each="rentType : ${rentTypeList}" th:value="${rentType.id}"
                                                     th:text="${rentType.name}"
@@ -149,6 +149,5 @@
         </div>
     </div>
 </div>
-<div th:replace="/common-layout :: footer"></div>
 </body>
 </html>

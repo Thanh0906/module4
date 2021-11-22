@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.dto.ContractDto;
 import com.codegym.model.Contract;
 import com.codegym.model.Customer;
 import com.codegym.model.Employee;
@@ -8,6 +9,7 @@ import com.codegym.service.IContractService;
 import com.codegym.service.ICustomerService;
 import com.codegym.service.IEmployeeService;
 import com.codegym.service.IServiceService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,25 +25,30 @@ import java.util.Optional;
 @RequestMapping("/contract")
 public class ContractController {
     @Autowired
-    public IContractService contractService;
-    @Autowired
-    ICustomerService iCustomerService;
-    @Autowired
-    IEmployeeService iEmployeeService;
-    @Autowired
-    IServiceService iService;
+    private IContractService contractService;
 
-    @ModelAttribute("customerList")
-    public Iterable<Customer> getCustomerList() {
-        return iCustomerService.findAll();
+    @Autowired
+    private IEmployeeService employeeService;
+
+    @Autowired
+    private ICustomerService customerService;
+
+    @Autowired
+    private IServiceService serviceService;
+
+    @ModelAttribute("employees")
+    private Iterable<Employee> employees () {
+        return employeeService.findAll();
     }
-    @ModelAttribute("employeeList")
-    public Iterable<Employee> getEmployeeList() {
-        return iEmployeeService.findAll();
+
+    @ModelAttribute("customers")
+    private Iterable<Customer> customers () {
+        return customerService.findAll();
     }
-    @ModelAttribute("serviceList")
-    public Iterable<Service> getServiceList() {
-        return iService.findAll();
+
+    @ModelAttribute("services")
+    private Iterable<Service> services () {
+        return serviceService.findAll();
     }
 
     @GetMapping("/list")
@@ -52,47 +59,54 @@ public class ContractController {
     }
 
     @GetMapping("/create")
-    public ModelAndView showCreateContract() {
+    public ModelAndView showCreateForm () {
         ModelAndView modelAndView = new ModelAndView("contract/create");
-        modelAndView.addObject("contract", new Contract());
+        modelAndView.addObject("contractDto", new ContractDto());
         return modelAndView;
     }
 
-    @PostMapping("/create")
-    public ModelAndView saveContract(@ModelAttribute("contract") Contract contract) {
-        contractService.save(contract);
-        ModelAndView modelAndView = new ModelAndView("/contract/create");
-        modelAndView.addObject("contract", new Customer());
-        modelAndView.addObject("message", "New customer created successfully");
+    @PostMapping("/save")
+    public String save (@Valid @ModelAttribute ContractDto contractDto, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "contract/create";
+        } else {
+            Contract contract = new Contract();
+            BeanUtils.copyProperties(contractDto, contract);
+            contractService.save(contract);
+            return "redirect:/contract/list";
+        }
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        Optional<Contract> contract = contractService.findById(id);
+        ContractDto contractDto = new ContractDto();
+        BeanUtils.copyProperties(contract.get(), contractDto);
+        ModelAndView modelAndView;
+        if (contractDto != null) {
+            modelAndView = new ModelAndView("/contract/edit");
+            modelAndView.addObject("contractDto", contractDto);
+        } else {
+            modelAndView = new ModelAndView("/error.404");
+        }
         return modelAndView;
     }
-//    @GetMapping("/edit/{id}")
-//    public ModelAndView showEditForm(@PathVariable Long id) {
-//        Optional<Contract> contract = contractService.findById(id);
-//
-//        if (contract != null) {
-//            ModelAndView modelAndView = new ModelAndView("/contract/edit");
-//            modelAndView.addObject("contractEdit", contract);
-//            return modelAndView;
-//        } else {
-//            ModelAndView modelAndView = new ModelAndView("/error.404");
-//            return modelAndView;
-//        }
-//
-//
-//    }
-//    @PostMapping("/edit")
-//    public ModelAndView updateCustomer(@ModelAttribute("contractEdit") Contract contract) {
-//        contractService.save(contract);
-//        ModelAndView modelAndView = new ModelAndView("/contract/edit");
-//        modelAndView.addObject("contractEdit",contract);
-//        modelAndView.addObject("message", "Customer updated successfully");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/delete")
-//    public String delete (@RequestParam Long idContract) {
-//        contractService.remove(idContract);
-//        return "redirect:/contract";
-//    }
+
+    @PostMapping("/update")
+    public String update (@Valid @ModelAttribute("contractDto") ContractDto contractDto, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "contract/edit";
+        } else {
+            Contract contract = new Contract();
+            BeanUtils.copyProperties(contractDto, contract);
+            contractService.save(contract);
+            return "redirect:/contract/list";
+        }
+    }
+
+    @PostMapping("/delete")
+    public String delete (@RequestParam Long idContract) {
+        contractService.remove(idContract);
+        return "redirect:/contract/list";
+    }
 }

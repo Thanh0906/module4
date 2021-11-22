@@ -54,9 +54,6 @@
                                     <div class="col-9">
                                         <input type="text" class="form-control" id="quantity"
                                                aria-describedby="quantityError" th:field="*{quantity}">
-                                        <div id="quantityError" class="form-text text-danger"
-                                             th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
-                                        </div>
                                     </div>
                                 </div>
                             </div>

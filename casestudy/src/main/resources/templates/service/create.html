@@ -80,7 +80,7 @@
                                         <label for="rentType" class="form-label">Rent type: </label>
                                     </div>
                                     <div class="col-9">
-                                        <select th:field="*{renType}" id="rentType" required>
+                                        <select th:field="*{rentType}" id="rentType" required>
                                             <option selected value="">Select</option>
                                             <option th:each="rentType : ${rentTypeList}" th:value="${rentType.id}"
                                                     th:text="${rentType.name}"></option>

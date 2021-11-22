@@ -22,16 +22,28 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{/customer/edit}" th:object="${customer}" method="post" >
+                    <form th:action="@{/customer/edit}" th:object="${customerDto}" method="post" >
                         <input type="hidden" th:field="*{id}">
-                        <input type="hidden" th:field="*{customerCode}">
+                        <div class="mb-2">
+                            <label for="customerCode" class="form-label">Customer code</label>
+                            <input type="text" class="form-control" id="customerCode" th:field="*{customerCode}" >
+                            <div id="customerCodeError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('customerCode')}" th:errors="*{customerCode}">
+                            </div>
+                        </div>
                         <div class="mb-2">
                             <label for="name" class="form-label">Customer Name</label>
                             <input type="text" class="form-control" id="name" th:field="*{customerName}" >
+                            <div id="customerNameError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="birthDay" class="form-label">Day of Birth</label>
                             <input type="date" class="form-control" id="birthDay" th:field="*{customerBirthday}" >
+                            <div id="customerBirthdayError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('customerBirthday')}" th:errors="*{customerBirthday}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label  class="form-label">Gender</label><br>
@@ -43,14 +55,23 @@
                         <div class="mb-2">
                             <label for="idCard" class="form-label">ID Card</label>
                             <input type="text" class="form-control" id="idCard" th:field="*{idCard}" >
+                            <div id="idCardError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('idCard')}" th:errors="*{idCard}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="phone" class="form-label">Number Phone</label>
                             <input type="text" class="form-control" id="phone" th:field="*{numberPhone}" >
+                            <div id="numberPhone" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" th:field="*{email}" >
+                            <div id="emailError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="address" class="form-label">Address</label>

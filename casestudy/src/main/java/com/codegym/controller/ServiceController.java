@@ -46,7 +46,7 @@ public class ServiceController {
 
     @GetMapping("/create")
     public ModelAndView showCreateForm () {
-        ModelAndView modelAndView = new ModelAndView("service/create");
+        ModelAndView modelAndView = new ModelAndView("/service/create");
         modelAndView.addObject("service", new Service());
         return modelAndView;
     }
@@ -70,6 +70,6 @@ public class ServiceController {
     public String showEditForm(@ModelAttribute("serviceEdit") Service service, Model model) {
         serviceService.save(service);
         model.addAttribute("success", "Update service successfully !");
-        return "/service/edit";
+        return "/service/list";
     }
 }

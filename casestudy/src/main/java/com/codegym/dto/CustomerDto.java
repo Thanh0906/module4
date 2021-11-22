@@ -20,14 +20,14 @@ public class CustomerDto implements Validator {
     private String customerName;
 
     @NotBlank(message = "Ngày sinh không được để trống.")
-    @Pattern(regexp = "^/(((0|1)[0-9]|2[0-9]|3[0-1])\\/(0[1-9]|1[0-2])/((19|20)\\d\\d))$/",
+    @Pattern(regexp = "^(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$",
             message = "Ngày sinh phải đúng định dạng: dd/MM/yyyy.")
     private String customerBirthday;
 
     private int gender;
 
     @NotBlank(message = "Không được để trống.")
-    @Pattern(regexp = "^([0-9]{9})|([0-9]{12})$",
+    @Pattern(regexp = "^([0-9]{9})|([0-9]{10})$",
             message = "Phải đúng định dạng: XXXXXXXXX hoặc XXXXXXXXXXXX.")
     private String idCard;
 
@@ -37,8 +37,7 @@ public class CustomerDto implements Validator {
     private String numberPhone;
 
     @NotBlank(message = "Email không được để trống.")
-    @Pattern(regexp = "^(?:^|\\s)[\\w!#$%&'*+/=?^`{|}~-](\\.?[\\w!#$%&'*+/=?^`{|}~-]+)*@\\w+[.-]?\\w*\\.[a-zA-Z]{2,3}\\b$",
-            message = "Email phải đúng định dạng.")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$",message = "Phai dung dinh dang")
     private String email;
     private String address;
     private CustomerType customerType;

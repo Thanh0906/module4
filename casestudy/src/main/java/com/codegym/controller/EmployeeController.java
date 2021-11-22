@@ -1,5 +1,7 @@
 package com.codegym.controller;
 
+import com.codegym.dto.CustomerDto;
+import com.codegym.dto.EmployeeDto;
 import com.codegym.model.*;
 import com.codegym.service.IUserService;
 import com.codegym.service.impl.DivisionServiceImpl;
@@ -18,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -33,6 +36,7 @@ public class EmployeeController {
     EducationDegreeServiceImpl iEducationService;
     @Autowired
     IUserService iUserService;
+
     @ModelAttribute("divisionList")
     public Iterable<Division> getDivision() {
         return iDivisionService.findAll();
@@ -50,48 +54,73 @@ public class EmployeeController {
 
 
     @GetMapping("/list")
-    public String showIndex(@PageableDefault(value = 5) Pageable pageable, Model model) {
-        Page<Employee> employeeList = employeeService.findAll(pageable);
-        model.addAttribute("employeeList", employeeList);
-        return "/employee/list";
+    public ModelAndView listEmployee(@RequestParam(value = "name", defaultValue = "", required = false) String name,
+                                     @RequestParam(value = "phone", defaultValue = "", required = false) String phone,
+                                     @PageableDefault(size = 4) Pageable pageable) {
+        Page<Employee> employees = employeeService.finByNamePhone(pageable, name, phone);
+        ModelAndView modelAndView = new ModelAndView("/employee/list");
+        modelAndView.addObject("employeeList", employees);
+        modelAndView.addObject("name", name);
+        modelAndView.addObject("phone", phone);
+        return modelAndView;
     }
 
+
     @GetMapping("/create")
-    public ModelAndView showCreateForm () {
+    public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("employee/create");
-        modelAndView.addObject("employee", new Employee());
+        modelAndView.addObject("employeeDto", new EmployeeDto());
         return modelAndView;
     }
+
     @PostMapping("/create")
-    public ModelAndView saveEmployee(@ModelAttribute("employee") Employee employee) {
-        employeeService.save(employee);
-        ModelAndView modelAndView = new ModelAndView("/employee/create");
-        modelAndView.addObject("employeeList", new Customer());
-        modelAndView.addObject("message", "New customerDto created successfully");
-        return modelAndView;
+    public String saveEmployee(@Valid @ModelAttribute("employeeDto") EmployeeDto employeeDto, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "/employee/create";
+        } else {
+            Employee employee = new Employee();
+            BeanUtils.copyProperties(employeeDto, employee);
+            employeeService.save(employee);
+            return "redirect:/employee/list";
+        }
+
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Optional<Employee> employeeEdit = employeeService.findById(id);
-        model.addAttribute("employeeEdit", employeeEdit);
-        return "/employee/edit";
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        Optional<Employee> employee = employeeService.findById(id);
+        EmployeeDto employeeDto = new EmployeeDto();
+        BeanUtils.copyProperties(employee.get(), employeeDto);
+        if (employee != null) {
+            ModelAndView modelAndView = new ModelAndView("/employee/edit");
+            modelAndView.addObject("employeeDto", employeeDto);
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/error.404");
+            return modelAndView;
+        }
     }
 
     @PostMapping("/edit")
-    public String showEditForm(@ModelAttribute("employeeEdit") Employee employee, Model model) {
-        employeeService.save(employee);
-        model.addAttribute("success", "Update customerDto successfully !");
-        return "/employee/edit";
+    public String updateEmployee(@Valid @ModelAttribute("employeeDto") EmployeeDto employeeDto, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "employee/edit";
+        } else {
+            Employee employee = new Employee();
+            BeanUtils.copyProperties(employeeDto, employee);
+            employeeService.save(employee);
+            return "redirect:/employee/list";
+        }
+
+
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 5) Pageable pageable) {
+
+    @PostMapping("/delete")
+    public String removeEmployee(@RequestParam Long id) {
         employeeService.remove(id);
-        model.addAttribute("success", "Delete employee successfully !");
-        Page<Employee> employeeList = employeeService.findAll(pageable);
-        model.addAttribute("employeeList", employeeList);
-        return "/employee/list";
+        return "redirect:/employee/list";
+
     }
 }
 

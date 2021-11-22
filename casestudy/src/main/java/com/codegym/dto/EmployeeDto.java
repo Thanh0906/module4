@@ -12,10 +12,14 @@ public class EmployeeDto implements Validator {
     @NotBlank(message = "Không được để trống.")
     private String name;
     @NotBlank(message = "Không được để trống.")
+    @Pattern(regexp = "^(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$",
+            message = "Ngày sinh phải đúng định dạng: dd/MM/yyyy.")
     private String birthday;
     @NotBlank(message = "Không được để trống.")
+    @Pattern(regexp = "^([0-9]{9})|([0-9]{10})$",
+            message = "Phải đúng định dạng: XXXXXXXXX hoặc XXXXXXXXXXXX.")
     private String idCard;
-    @NotBlank(message = "Ngày sinh không được để trống.")
+
     @Min(value = 0,message = "Phải là số nguyên dương")
     private double salary;
 
@@ -25,19 +29,20 @@ public class EmployeeDto implements Validator {
     private String phone;
 
     @NotBlank(message = "Không được để trống.")
-    @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$",message = "Phai dung dinh dang")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$",
+            message = "Phải đúng định dạng")
     private String email;
     private String address;
-    private int positionId;
-    private int educationDegreeId;
-    private int divisionId;
+    private int position;
+    private int educationDegree;
+    private int division;
     private String username;
 
     public EmployeeDto() {
     }
 
     public EmployeeDto(Long id, @NotBlank(message = "Không được để trống.") String name, @NotBlank(message = "Không được để trống.") String birthday, @NotBlank(message = "Không được để trống.") String idCard, double salary, @NotBlank(message = "Không được để trống.") @Pattern(regexp = "^(0|(\\(84\\)\\+))+([9][0-1][0-9]{7})$",
-            message = "Phải bắt đầu 090 hoặc 091x hoặc (84)+90 hoặc (84)+91") String phone, @NotBlank(message = "Không được để trống.") @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$", message = "Phai dung dinh dang") String email, String address, int positionId, int educationDegreeId, int divisionId, String username) {
+            message = "Phải bắt đầu 090 hoặc 091x hoặc (84)+90 hoặc (84)+91") String phone, @NotBlank(message = "Không được để trống.") @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$", message = "Phai dung dinh dang") String email, String address, int position, int educationDegree, int division, String username) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -47,9 +52,9 @@ public class EmployeeDto implements Validator {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.positionId = positionId;
-        this.educationDegreeId = educationDegreeId;
-        this.divisionId = divisionId;
+        this.position = position;
+        this.educationDegree = educationDegree;
+        this.division = division;
         this.username = username;
     }
 
@@ -117,28 +122,28 @@ public class EmployeeDto implements Validator {
         this.address = address;
     }
 
-    public int getPositionId() {
-        return positionId;
+    public int getPosition() {
+        return position;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
-    public int getEducationDegreeId() {
-        return educationDegreeId;
+    public int getEducationDegree() {
+        return educationDegree;
     }
 
-    public void setEducationDegreeId(int educationDegreeId) {
-        this.educationDegreeId = educationDegreeId;
+    public void setEducationDegree(int educationDegree) {
+        this.educationDegree = educationDegree;
     }
 
-    public int getDivisionId() {
-        return divisionId;
+    public int getDivision() {
+        return division;
     }
 
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
+    public void setDivision(int division) {
+        this.division = division;
     }
 
     public String getUsername() {

@@ -41,8 +41,8 @@
                             <td th:text="${service.maxPeople}"></td>
                             <td th:if="${service.serviceType}" th:text="${service.serviceType.name}"></td>
                             <td th:unless="${service.serviceType}"></td>
-                            <td th:if="${service.renType}" th:text="${service.renType.name}"></td>
-                            <td th:unless="${service.renType}"></td>
+                            <td th:if="${service.rentType}" th:text="${service.rentType.name}"></td>
+                            <td th:unless="${service.rentType}"></td>
                             <td th:text="${service.standardRoom}"></td>
                             <td th:text="${service.description}"></td>
                             <td th:text="${service.poolArea}"></td>

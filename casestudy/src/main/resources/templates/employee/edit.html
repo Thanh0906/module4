@@ -24,33 +24,49 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{/employee/edit}" th:object="${employeeEdit}" method="post" >
+                    <form th:action="@{/employee/edit}" th:object="${employeeDto}" method="post" >
                         <input type="hidden" th:field="*{id}">
-
-                        <input type="hidden" th:field="*{username}">
                         <div class="mb-2">
                             <label for="name" class="form-label">Employee Name</label>
                             <input type="text" class="form-control" id="name" th:field="*{name}" >
+                            <div id="nameError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="birthDay" class="form-label">Day of Birth</label>
                             <input type="date" class="form-control" id="birthDay" th:field="*{birthday}" >
+                            <div id="birthdayError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="idCard" class="form-label">ID Card</label>
                             <input type="text" class="form-control" id="idCard" th:field="*{idCard}" >
+                            <div id="idCardError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('idCard')}" th:errors="*{idCard}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="salary" class="form-label">Salary</label>
                             <input type="number" class="form-control" id="salary" th:field="*{salary}" >
+                            <div id="salaryError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="phone" class="form-label">Number Phone</label>
                             <input type="text" class="form-control" id="phone" th:field="*{phone}" >
+                            <div id="phoneError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" th:field="*{email}" >
+                            <div id="emailError" class="form-text text-danger"
+                                 th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label for="address" class="form-label">Address</label>

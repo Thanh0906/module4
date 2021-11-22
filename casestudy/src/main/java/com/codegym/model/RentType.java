@@ -12,7 +12,7 @@ public class RentType {
     private String name;
     private double cost;
 
-    @OneToMany(mappedBy = "renType")
+    @OneToMany(mappedBy = "rentType")
     private List<Service> services;
     public RentType() {
     }

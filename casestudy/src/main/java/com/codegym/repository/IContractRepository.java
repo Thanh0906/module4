@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface IContractRepository extends JpaRepository<Contract,Long> {
     Page<Contract> findAll (Pageable pageable);
+
 }

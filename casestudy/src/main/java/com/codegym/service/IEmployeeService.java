@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface IEmployeeService extends IGeneralService<Employee>{
     Page<Employee> findAll(Pageable pageable);
+    Page<Employee> finByNamePhone(Pageable pageable,String name,String phone);
 }
