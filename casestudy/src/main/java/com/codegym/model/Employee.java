@@ -29,9 +29,6 @@ public class Employee {
     @JoinColumn(name = "division_id", referencedColumnName = "id")
     private Division division;
 
-    @OneToOne (cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
 
     @OneToMany(mappedBy = "employee")
     private List<Contract> contracts;
@@ -39,7 +36,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, Position position, EducationDegree educationDegree, Division division, User user) {
+    public Employee(Long id, String name, String birthday, String idCard, double salary, String phone, String email, String address, Position position, EducationDegree educationDegree, Division division) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -51,7 +48,7 @@ public class Employee {
         this.position = position;
         this.educationDegree = educationDegree;
         this.division = division;
-        this.user = user;
+
     }
 
     public Long getId() {
@@ -141,15 +138,6 @@ public class Employee {
     public void setDivision(Division division) {
         this.division = division;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Contract> getContracts() {
         return contracts;
     }

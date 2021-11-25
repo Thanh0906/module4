@@ -45,7 +45,6 @@
                         <th>Position</th>
                         <th>Education Degree</th>
                         <th>Division</th>
-                        <th>UserName</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -72,10 +71,6 @@
 
                         <td th:if="${employee.division}"
                             th:text="${employee.division.name}"></td>
-                        <td th:unless="${employee.name}"></td>
-
-                        <td th:if="${employee.user}"
-                            th:text="${employee.user.name}"></td>
                         <td th:unless="${employee.name}"></td>
 
                         <td>

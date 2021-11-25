@@ -40,7 +40,7 @@ public class ServiceController {
     public ModelAndView listService(@PageableDefault(size =4)Pageable pageable) {
         Page<Service> services = serviceService.findAll(pageable);
         ModelAndView modelAndView = new ModelAndView("/service/list");
-        modelAndView.addObject("services",services);
+        modelAndView.addObject("serviceList",services);
         return modelAndView;
     }
 
@@ -70,6 +70,14 @@ public class ServiceController {
     public String showEditForm(@ModelAttribute("serviceEdit") Service service, Model model) {
         serviceService.save(service);
         model.addAttribute("success", "Update service successfully !");
+        return "/service/list";
+    }
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 5) Pageable pageable) {
+        serviceService.remove(id);
+        model.addAttribute("success", "Delete customer successfully !");
+        Page<Service> services = serviceService.findAll(pageable);
+        model.addAttribute("serviceList", services);
         return "/service/list";
     }
 }

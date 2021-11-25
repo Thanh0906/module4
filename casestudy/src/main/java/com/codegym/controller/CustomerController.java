@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -28,6 +28,7 @@ public class CustomerController {
     private CustomerServiceImpl customerService;
     @Autowired
     private CustomerTypeServiceImpl customerTypeService;
+
 
     @ModelAttribute("customerType")
     public Iterable<CustomerType> getType() {
@@ -104,9 +105,6 @@ public class CustomerController {
             customerService.save(customer);
             return "redirect:/customer/list";
         }
-
-
     }
-
 
 }

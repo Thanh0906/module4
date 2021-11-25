@@ -11,9 +11,11 @@ import com.codegym.service.IEmployeeService;
 import com.codegym.service.IServiceService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,7 +56,7 @@ public class ContractController {
     @GetMapping("/list")
     private ModelAndView list (@PageableDefault(value = 5) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("contract/list");
-        modelAndView.addObject("contracts", contractService.findAll(pageable));
+        modelAndView.addObject("contractList", contractService.findAll(pageable));
         return modelAndView;
     }
 
@@ -104,9 +106,12 @@ public class ContractController {
         }
     }
 
-    @PostMapping("/delete")
-    public String delete (@RequestParam Long idContract) {
-        contractService.remove(idContract);
-        return "redirect:/contract/list";
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model, @PageableDefault(value = 4) Pageable pageable) {
+        contractService.remove(id);
+        model.addAttribute("success", "Delete customer successfully !");
+        Page<Contract> contracts = contractService.findAll(pageable);
+        model.addAttribute("contractList", contracts);
+        return "/customer/list";
     }
 }

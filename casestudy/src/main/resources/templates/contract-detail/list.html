@@ -28,40 +28,38 @@
                        style="display: inline-block; width: 100%; overflow-x: auto">
                     <thead class="thead-inverse">
                     <tr>
-                        <th>ID</th>
+
                         <th>Quantity</th>
                         <th>Contract</th>
                         <th>Attach Service</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>Select</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="contractDetail : ${contractDetail}">
                         <td th:text="${contractDetail.quantity}"></td>
                         <td th:text="${contractDetail.contract}"></td>
-                        <td th:text="${contractDetail.attachService}"></td>
+                        <td th:text="${contractDetail.attachService.name}"></td>
                         <td>
-                            <a th:href="@{/contract-detail/edit/{id} (id=${contractDetail.id})}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a th:href="@{/contract-detail/edit/{id} (id=${contractDetail.id})}"
+                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                         <td>
-                            <button th:onclick="|deleteByModal('${contractDetail.id}')|" type="button"
-                                    class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
-                                <i class="fas fa-trash-alt"></i>
+                            <button th:onclick="|onDelete('${contractDetail.id}')|" type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#modelId">Delete <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-
             </div>
             <div class="row">
-                <div class="col-10"></div>
-                <div class="col-2">
-                    <a th:if="${contractDetail.hasPrevious()}" class="btn btn-light" th:href="@{'/contract-detail/list'(page=${contractDetail.number - 1})}">Previous</a>
+                <div>
+                    <a th:href="@{'/contract-detail/list'(page=${contractDetail.number - 1})}" th:if="${contractDetail.hasPrevious()}">Previous</a>
                     <span th:text="${contractDetail.number + 1}"></span>/<span th:text="${contractDetail.totalPages}"></span>
-                    <a th:if="${contractDetail.hasNext()}" class="btn btn-light" th:href="@{'/contract-detail/list'(page=${contractDetail.number + 1})}">Next</a>
+                    <a th:href="@{'/contract-detail/list'(page=${contractDetail.number + 1})}" th:if="${contractDetail.hasNext()}">Next</a>
                 </div>
             </div>
         </div>
@@ -81,7 +79,7 @@
                 </div>
                 <form action="/contract-detail/delete">
 
-                    <input type="hidden" name="idContractDetail" id="idContractDetail">
+                    <input type="hidden" name="id" id="id">
                     <div class="modal-body">
                         <div class="container-fluid">
                             Are you sure to delete ?
@@ -103,13 +101,10 @@
 
 <script>
     function onDelete(id) {
-        document.getElementById("idContractDetail").value = id;
+        document.getElementById("id").value = id;
     }
 
-    $('#exampleModal').on('show.bs.modal', event => {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-    });
+
 </script>
 
 </body>

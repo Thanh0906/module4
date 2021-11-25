@@ -17,7 +17,7 @@
                 </div>
                 <div class="row m-4 d-flex">
                     <div class="col-6">
-                        <form th:action="@{/contract-detail/save}" th:object="${}" method="post">
+                        <form th:action="@{/contract-detail/save}" th:object="${contractDetailEdit}" method="post">
                             <div class="mb-3">
                                 <div class="row">
                                     <div class="col-3">
@@ -26,8 +26,8 @@
                                     <div class="col-9">
                                         <select th:field="*{contract}" id="contract" required>
                                             <option selected value="">Select</option>
-                                            <option th:each="contract : ${contracts}" th:value="${contract.contractId}"
-                                                    th:text="${contract.contractId}"></option>
+                                            <option th:each="contract : ${contracts}" th:value="${contract.id}"
+                                                    th:text="${contract.id}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -40,8 +40,8 @@
                                     <div class="col-9">
                                         <select th:field="*{attachService}" id="attachService" required>
                                             <option selected value="">Select</option>
-                                            <option th:each="attachService : ${attachServices}" th:value="${attachService.attachServiceId}"
-                                                    th:text="${attachService.attachServiceName}"></option>
+                                            <option th:each="attachService : ${attachServices}" th:value="${attachService.id}"
+                                                    th:text="${attachService.name}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -54,9 +54,7 @@
                                     <div class="col-9">
                                         <input type="text" class="form-control" id="quantity"
                                                aria-describedby="quantityError" th:field="*{quantity}">
-                                        <div id="quantityError" class="form-text text-danger"
-                                             th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

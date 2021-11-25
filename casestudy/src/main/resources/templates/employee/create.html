@@ -89,12 +89,6 @@
                                 <option th:each="division:${divisionList}" th:value="${division.id}" th:text="${division.name}"></option>
                             </select>
                         </div>
-                        <div class="mb-2">
-                            <label for="username"  class="form-label">UserName</label><br>
-                            <select id="username" class="form-control" th:field="*{user}">
-                                <option th:each="user :${userList}" th:value="${user.id}" th:text="${user.name}"></option>
-                            </select>
-                        </div>
 
                         <button type="submit" class="btn btn-primary">Create</button>
                     </form>
